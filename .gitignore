@@ -1,8 +1,8 @@
 .git
 .settings
 _images
-conf/init.php
+conf/*
 .buildpath
 .project
 *.version
-logs
+logs/*

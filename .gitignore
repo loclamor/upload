@@ -1,7 +1,7 @@
 .git
 .settings
 _images
-conf/*
+conf/dbpass.php
 .buildpath
 .project
 *.version

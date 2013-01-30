@@ -165,5 +165,4 @@ class Site_Upload extends Site {
 		$this->log->log('infos', 'infos_general', 'page createAlbum affichee', Logger::GRAN_MONTH);
 	}
 	
-	
 }

@@ -55,13 +55,6 @@ else {//on est en prod
 
 require_once 'functions.php';
 
-
-import('class.Entite');
-import('class.Gestionnaire');
-import('class.Page');
-import('class.*');
-
-
 //script de mise à jour de la BDD en fonction de la version
 if(!file_exists(VERSION.'.version')){
 	require_once 'bdinstal.php';
@@ -72,7 +65,3 @@ if(!file_exists(VERSION.'.version')){
 		die("erreur de changement de version vers ".VERSION);
 	}
 }
-
-
-
-

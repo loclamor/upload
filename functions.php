@@ -342,3 +342,10 @@ function remote_file_exists ( $url ) {
 		return false;
 	}
 }
+
+
+function __autoload($className){
+	$class = str_replace('_', '/', $className);
+	require_once 'class/'.$class.'.php';
+//	echo $className . " imported<br/>";
+}

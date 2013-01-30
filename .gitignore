@@ -1,0 +1,8 @@
+.git
+.settings
+_images
+conf/init.php
+.buildpath
+.project
+*.version
+logs

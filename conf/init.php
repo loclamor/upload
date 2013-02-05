@@ -54,6 +54,7 @@ else {//on est en prod
 }
 
 require_once 'functions.php';
+require_once 'class/simple_html_dom.php';
 
 //script de mise à jour de la BDD en fonction de la version
 if(!file_exists(VERSION.'.version')){

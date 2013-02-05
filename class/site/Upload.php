@@ -11,8 +11,10 @@ class Site_Upload extends Site {
 		$this->addElement('title', SITE_NAME);
 		
 		//on crée les éléments généraux du footer
-		$this->addElement('foot', 'MondoPhoto Upload Service v'.VERSION);
-		$this->addElement('foot', '&copy; 2012 loclamor');
+		$this->addFoot('MondoPhoto Upload Service v'.VERSION.'', 'foot_version','span');
+		$this->addFoot(' - &copy; 2012 loclamor', 'foot_copyright','span');
+	//	$this->addElement('foot', 'MondoPhoto Upload Service v'.VERSION);
+	//	$this->addElement('foot', '&copy; 2012 loclamor');
 		
 		//on vérifie que on a bien une page de demandée
 		if(isset($_GET['page']) and !empty($_GET['page'])){
@@ -24,7 +26,12 @@ class Site_Upload extends Site {
 		
 		$url = new Url();
 		$url->addParam('page', 'accueil');
-		$this->addElement('menu','<li><a class="brand" href="'.$url->getUrl().'">MondoPhoto Upload Service</a></li>');
+		
+		//<ul id="onglets" class="nav">
+		$this->addMenu('', "onglets", "ul", array("class"=>"nav"));
+		$this->addMenu('<a class="brand" href="'.$url->getUrl().'">MondoPhoto Upload Service</a>', "onglet_1", "li", array(), 'onglets');
+		
+
 		$this->user_connected = false;
 		//on vérifie la connexion
 		if(!isset($_SESSION['upload']['isConnect']) and $_SESSION['upload']['isConnect'] != 'true'){
@@ -106,13 +113,13 @@ class Site_Upload extends Site {
 		$nbAdmQuery = SQL::getInstance()->getNbAdmQuery();
 		$nbQuery = SQL::getInstance()->getNbQuery();
 		
-		$this->addElement('foot', $nbAdmQuery.'/'.$nbQuery.' requêtes');
+		$this->addFoot(' - '.$nbAdmQuery.'/'.$nbQuery.' requ&ecirc;tes', 'foot_queries','span');
 		
 		$temps = microtime();
 		$temps = explode(' ', $temps);
 		$this->microtimeEnd = $temps[1] + $temps[0];
 		
-		$this->addElement('foot', 'page générée en '.round(($this->microtimeEnd - $this->microtimeStart),3).' secondes');
+		$this->addFoot(' - page g&eacute;n&eacute;r&eacute;e en '.round(($this->microtimeEnd - $this->microtimeStart),3).' secondes', 'foot_time','span');
 		
 	}
 	

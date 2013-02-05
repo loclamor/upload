@@ -45,11 +45,7 @@ $site = new Site_Upload();
 		<nav class="navbar">
 			<div class="navbar-inner">
 				<div class="container" id="menu">
-		
-					<ul id="onglets" class="nav">
-						<?php echo $site->getMenu();?>
-					</ul>
-					
+					<?php echo $site->getMenu();?>
 				</div>
 			</div>
 		</nav>

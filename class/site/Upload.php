@@ -57,27 +57,35 @@ class Site_Upload extends Site {
 			// on construit le menu
 			$url = new Url();
 			
-			$this->addElement('menu', '<li class="divider-vertical"></li>');
-			$this->addElement('menu', '<li><a href="#" >Connecté en tant que '.$this->user->getPseudo().'</a></li>');
+			$this->addMenu('', "onglet_divider_1", "li", array('class'=>'divider-vertical'), 'onglets');
+			$this->addMenu('<a href="#" >Connect&eacute; en tant que '.$this->user->getPseudo().'</a>', "onglet_profil", "li", array(), 'onglets');
 			
 			$url->addParam('page', 'deconnexion');
-			$this->addElement('menu', '<li><a class="" href="'.$url->getUrl().'"><i class="icon-off"></i> Se deconnecter</a></li>');
+			$this->addMenu('<a class="" href="'.$url->getUrl().'"><i class="icon-off"></i> Se deconnecter</a>', "onglet_deconnection", "li", array(), 'onglets');
 			
 			//quand on est connecté il faut aussi construire l'interface d'onglets
 			//on ne met que l'ouverture des éléments, les fermetures seront mise après le contenu de la page
 			//donc 1 page de contenu = 1 onglet
 			
 			
-			$this->addElement('content','<div class="tabbable tabs-left">');
-				$this->addElement('content','<ul class="nav nav-tabs">');
+			
+			$this->addContent('', 'main-tab', 'div', array('class'=>'tabbable tabs-left'));
+			//$this->addElement('content','<div class="tabbable tabs-left">');
+				$this->addContent('', 'main-tab-nav', 'ul', array('class'=>'nav nav-tabs'),'main-tab');
+				//$this->addElement('content','<ul class="nav nav-tabs">');
 					$urlTab = new Url(true);
 					$urlTab->addParam('page', 'albums');
-					$this->addElement('content','<li class="'.($this->page=='albums'||$this->page=='accueil'||empty($this->page)?'active':'').'"><a href="'.$urlTab->getUrl().'" >Mes albums</a></li>');
+					$class = ($this->page=='albums'||$this->page=='accueil'||empty($this->page)?'active':'');
+					$this->addContent('<a href="'.$urlTab->getUrl().'" >Mes albums</a>', 'main-tab-nav-li_1', 'li', array('class'=>$class),'main-tab-nav');
+					//$this->addElement('content','<li class="'.($this->page=='albums'||$this->page=='accueil'||empty($this->page)?'active':'').'"><a href="'.$urlTab->getUrl().'" >Mes albums</a></li>');
 					$urlTab->addParam('page', 'create');
-					$this->addElement('content','<li class="'.($this->page=='create'?'active':'').'"><a href="'.$urlTab->getUrl().'" >Créer un album</a></li>');
+					$class = ($this->page=='create'?'active':'');
+					$this->addContent('<a href="'.$urlTab->getUrl().'" >Cr&eacute;er un album</a>', 'main-tab-nav-li_2', 'li', array('class'=>$class),'main-tab-nav');
+					//$this->addElement('content','<li class="'.($this->page=='create'?'active':'').'"><a href="'.$urlTab->getUrl().'" >Créer un album</a></li>');
 					
-				$this->addElement('content','</ul>');
-				$this->addElement('content', '<div class="tab-content">');
+				//$this->addElement('content','</ul>');
+				$this->addContent('', 'main-tab-content', 'div', array('class'=>'tab-content'),'main-tab');
+				//$this->addElement('content', '<div class="tab-content">');
 				
 		}
 		
@@ -105,11 +113,11 @@ class Site_Upload extends Site {
 		}
 		
 		//si on est connecté, on affiche la fermeture des balises des onglets
-		if($this->user_connected) {
+/*		if($this->user_connected) {
 			$this->addElement('content','</div>');
 			$this->addElement('content','</div>');
 		}
-		
+*/		
 		$nbAdmQuery = SQL::getInstance()->getNbAdmQuery();
 		$nbQuery = SQL::getInstance()->getNbQuery();
 		
@@ -157,7 +165,7 @@ class Site_Upload extends Site {
 	
 	public function getAlbums(){
 		
-		$this->addPage(new Page_Upload_Albums());
+		$this->addPage(new Page_Upload_Albums(),'','main-tab-content');
 		
 		
 		
@@ -167,7 +175,7 @@ class Site_Upload extends Site {
 	
 	public function createAlbum(){
 		
-		$this->addPage(new Page_Upload_CreateAlbum());
+		$this->addPage(new Page_Upload_CreateAlbum(),'','main-tab-content');
 		
 		$this->log->log('infos', 'infos_general', 'page createAlbum affichee', Logger::GRAN_MONTH);
 	}

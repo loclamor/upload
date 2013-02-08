@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="11.5.1">
+  <zoom_level>10</zoom_level>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>20</x>
+      <y>60</y>
+      <w>130</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>utilisateur
+--
+_id_
+pseudo
+nom
+prenom
+mot_de_passe
+mail
+date_onscription
+date_anniversaire
+signature</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>260</x>
+      <y>70</y>
+      <w>150</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>album
+--
+_id_
+#id_utilisateur
+nom
+date_creation
+date_mise_a_jour
+privacy
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>120</x>
+      <y>60</y>
+      <w>160</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>m1=0..n
+m2=1..1</panel_attributes>
+    <additional_attributes>30;30;140;60</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>500</x>
+      <y>100</y>
+      <w>130</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>photo
+--
+_id_
+#id_album
+legende
+date_upload
+privacy</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>380</x>
+      <y>90</y>
+      <w>140</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>m1=0..n
+m2=1..1</panel_attributes>
+    <additional_attributes>30;30;120;60</additional_attributes>
+  </element>
+</diagram>

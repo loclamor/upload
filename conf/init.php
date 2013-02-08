@@ -5,7 +5,7 @@ session_start();
 define('SITE_NAME', 'MondoPhoto Upload Service');
 
 //version du site (utile en particulier pour automatiser la mise à jour de la BDD
-define('VERSION','0.0');
+define('VERSION','0.1');
 
 //config pour savoir si on est en local ou pas
 if($_SERVER['SERVER_ADDR'] == '127.0.0.1')  {
@@ -54,7 +54,6 @@ else {//on est en prod
 }
 
 require_once 'functions.php';
-require_once 'class/simple_html_dom.php';
 
 //script de mise à jour de la BDD en fonction de la version
 if(!file_exists(VERSION.'.version')){

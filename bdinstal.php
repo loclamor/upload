@@ -18,5 +18,26 @@ $requete = "CREATE TABLE IF NOT EXISTS `".TABLE_PREFIX."utilisateur`(
 )";
 mysql_query($requete);
 
+$requete = "CREATE TABLE IF NOT EXISTS `".TABLE_PREFIX."album`(
+	`id` int(11) NOT NULL AUTO_INCREMENT,
+	`id_utilisateur int(11) NOT NULL,
+	`nom` varchar(255) NOT NULL,
+	`date_creation` date NOT NULL,
+	`date_mise_a_jour` date NOT NULL,
+	`privacy` varchar(255) DEFAULT NULL,
+	PRIMARY KEY (`id`)
+)";
+mysql_query($requete);
+
+$requete = "CREATE TABLE IF NOT EXISTS `".TABLE_PREFIX."photo`(
+	`id` int(11) NOT NULL AUTO_INCREMENT,
+	`id_album` int(11) NOT NULL,
+	`legend` varchar(255) NOT NULL,
+	`date_upload` date NOT NULL,
+	`privacy` varchar(255) DEFAULT NULL,
+	PRIMARY KEY (`id`)
+)";
+mysql_query($requete);
+
 //on se déconnecte
 mysql_close();

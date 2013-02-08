@@ -269,7 +269,7 @@ abstract class Site {
     }
 	
 	public function addPage(Page $page, $idAdding = 'DEFAULT', $idToAdd = 'root_content') {
-		if($idAdding=='DEFAULT') {
+		if($idAdding=='DEFAULT' or $idAdding=="") {
 			$idAdding = get_class($page);
 		}
 		$this->addContent($page->get(), $idAdding, 'div', array(), $idToAdd);

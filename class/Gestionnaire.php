@@ -30,7 +30,7 @@ class Gestionnaire {
 	
 	/**
 	 * @param integer $id
-	 * @return $this->$class
+	 * @return Entite
 	 */
 	public function getOne($id) {
 		if(array_key_exists($id, $this->loadedClass)) {

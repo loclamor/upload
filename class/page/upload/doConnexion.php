@@ -52,6 +52,7 @@ class Page_Upload_DoConnexion extends Page {
 		
 		$urlAction = new Url(true);
 		$urlAction->addParam('page', 'accueil');
+		$urlAction->addParam('notify', 'Bienvenue '.$pseudo);
 		redirect($urlAction->getUrl());
 		echo 'Vous avez été connecté.<br/><a href="'.$urlAction->getUrl().'">retour accueil</a>';
 	}

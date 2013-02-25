@@ -19,7 +19,9 @@ class Page_Upload_CreateAlbum extends Page {
 			//TODO : vérifier que l'utilisateur est dans son album
 		}
 		
-		$this->urlAction = new Url();
+		$this->urlAction = new Url(true);
+		$this->urlAction->addParam('page', 'createProcess');
+		$this->urlAction->addParam('idAlbum', $album->getId());
 		$this->album = $album;
 		
 	}

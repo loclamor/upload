@@ -209,6 +209,7 @@ if (($album instanceof Bdmap_Album)) {
 					$photo->setDateUpload(date("Y-m-d H:i:s",time()));
 					$photo->setIdAlbum($album->getId());
 					$photo->setLegende($result['fileName']);
+					$photo->setUrl($result['uploadedFile']);
 					$photo->setUniqid(uniqid());
 					$idPhoto = $photo->enregistrer();
 					$result['idPhoto'] = $idPhoto;

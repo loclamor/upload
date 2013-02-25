@@ -1,0 +1,18 @@
+<form action="<?php echo $this->urlAction->getUrl(); ?>" method="POST" class="form-horizontal well span8 offset2" >
+	<fieldset>
+		<legend>Connexion</legend>
+		<div class="control-group">
+			<label for="pseudo" class="control-label" >Pseudo : </label>
+			<div class="controls">
+				<input type="text" name="pseudo" id="pseudo" class="input-large login-input" />
+			</div>
+		</div>
+		<div class="control-group">
+			<label for="pwd" class="control-label" >Mot de passe : </label>
+			<div class="controls">
+				<input type="password" name="pwd" id="pwd" class="input-large login-input" />
+			</div>
+		</div>
+		<input type="submit" value="Valider" class="btn btn-medium" />
+	</fieldset>
+</form>

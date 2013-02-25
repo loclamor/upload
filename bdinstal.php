@@ -37,6 +37,7 @@ $requete = "CREATE TABLE IF NOT EXISTS `".TABLE_PREFIX."photo`(
 	`uniqid` varchar(15) NOT NULL,
 	`id_album` int(11) NOT NULL,
 	`legend` varchar(255) NOT NULL,
+	`url` varchar(255) NOT NULL,
 	`date_upload` datetime NOT NULL,
 	`privacy` varchar(255) DEFAULT NULL,
 	PRIMARY KEY (`id`)

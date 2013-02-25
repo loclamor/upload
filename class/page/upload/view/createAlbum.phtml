@@ -1,0 +1,79 @@
+<?php 
+$album = $this->album;
+$album instanceof Bdmap_Album;
+
+?>
+<form action="<?php echo $this->urlAction->getUrl(); ?>" method="POST" class="form-horizontal well span11 " >
+	<fieldset>
+		<legend>Nouvel album : <input type="text" name="title" id="title" class="span9" value="<?php echo $album->getNom(); ?>" /></legend>
+		<div class="row-fluid">
+			<ul class="thumbnails upload-thumbnails">
+			
+			</ul>
+		</div>
+		<div class="row-fluid buttons-bottom">
+			<input type="submit" value="Valider l'album" class="btn btn-large offset1 span3" />
+			<div id='file-uploader' class="span8" ></div>
+		</div>
+		
+		
+	</fieldset>
+</form>
+
+<script>      
+		  
+    function createUploader(){            
+        var uploader = new qq.FileUploader({
+            element: document.getElementById('file-uploader'),
+            action: 'ajax.php?page=traitementUploadPhoto&idAlbum='+'<?php echo $album->getId(); ?>',
+            debug: true,
+            allowedExtensions: ["jpeg","jpg"],               
+            sizeLimit: <?php echo (APPLICATION_ENV == 'prod'?(8 * 1024 * 1024):(2 * 1024 * 1024)); ?>,   
+            minSizeLimit: 1, 
+            onComplete: function(id, fileName, responseJSON){
+                if(responseJSON['success'] == true || responseJSON['success'] == "true"){
+            		$( "#progressbar_"+id ).remove();
+            		$('#up_'+id).append('<img src="'+responseJSON['uploadedFile']+'" class="span12" style="height: 120px; margin-bottom:6px;" /><input type="text" value="'+fileName+'" name="up_legende['+responseJSON['idPhoto']+']" class="span12" maxlength="255" />');
+                }
+                else {
+                	$( "#up_"+id ).parent().remove();
+                }
+	        },
+        	onSubmit: function(id, fileName){
+	        	$('.upload-thumbnails').append('<li class="span3"><div class="thumbnail" id="up_'+id+'"><div id="progressbar_'+id+'" ></div></div></li>');
+	        	$( "#progressbar_"+id ).progressbar({
+	        		 value: 0
+	        	});
+	        	
+	        },
+	        onProgress: function(id, fileName, loaded, total){
+	        	$( "#progressbar_"+id ).progressbar({
+	        		 value: (loaded/total*100)
+	        	});
+	        },
+	        onCancel: function(id, fileName){
+	        	$( "#up_"+id ).parent().remove();
+	        	
+		    },
+	        messages: {
+	            typeError: "{file} a une extension invalide. Seuls {extensions} sont authorises.",
+	            sizeError: "{file} est trop gros, la taille maximale est {sizeLimit}.",
+	            minSizeError: "{file} est trop petit, la taille minimale est {minSizeLimit}.",
+	            emptyError: "{file} est vide, merci d'en selectionner un nouveau.",
+	            onLeave: "Les fichiers ont ete mis en ligne, si vous quittez maintenant, les envois seront annules."            
+	        },
+	        showMessage: function(message){
+	            //alert(message);
+	        	notify(message,5000);
+	        	console.log('[uploader] '+message);
+	        }
+        });           
+    }
+	$(document).ready(function(){
+	    createUploader();
+	    $("#title").focusout(function(){
+	    	document.title = '<?php echo SITE_NAME;?> - ' + $("#title").val();
+		});
+	});
+
+</script>

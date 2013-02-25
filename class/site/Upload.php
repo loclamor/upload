@@ -97,6 +97,9 @@ class Site_Upload extends Site {
 			case 'create' :
 				$this->createAlbum();
 				break;
+			case 'createProcess' :
+				$this->doCreateAlbum();
+				break;
 			case 'albums' :
 			case 'accueil' :
 			default:
@@ -113,6 +116,10 @@ class Site_Upload extends Site {
 		$temps = microtime();
 		$temps = explode(' ', $temps);
 		$this->microtimeEnd = $temps[1] + $temps[0];
+		
+		if(isset($_GET['notify'])){
+			$this->addContent('<script>$(document).ready(function(){ notify("'.$_GET['notify'].'", 3000); });</script>');
+		}
 		
 		
 		$this->addFoot('<span class="separator"> - </span>');
@@ -147,12 +154,17 @@ class Site_Upload extends Site {
 		
 		$urlAction = new Url(true);
 		$urlAction->addParam('page', 'accueil');
+		$urlAction->addParam('notify', 'Vous avez ete deconecte');
 		redirect($urlAction->getUrl());
 		echo 'Vous avez été déconnecté.<br/><a href="'.$urlAction->getUrl().'">retour accueil</a>';
 	}
 	
 	
 	public function getAlbums(){
+		
+		$urlFils = new Url(true);
+		$urlFils->addParam('page', 'albums');
+		$this->addElement('filariane', '<a href="'.$urlFils->getUrl().'">mes albums</a>');
 		
 		$this->addPage(new Page_Upload_Albums(),'main-tab-content');
 		
@@ -164,9 +176,19 @@ class Site_Upload extends Site {
 	
 	public function createAlbum(){
 		
+		$urlFils = new Url(true);
+		$urlFils->addParam('page', 'create');
+		$this->addElement('filariane', '<a href="'.$urlFils->getUrl().'">nouvel albums</a>');
+		
 		$this->addPage(new Page_Upload_CreateAlbum(),'main-tab-content');
 		
 		$this->log->log('infos', 'infos_general', 'page createAlbum affichee', Logger::GRAN_MONTH);
+	}
+	
+	public function doCreateAlbum() {
+		$this->addPage(new Page_Upload_DoCreateAlbum(),'main-tab-content');
+		
+		$this->log->log('infos', 'infos_general', 'process creation album', Logger::GRAN_MONTH);
 	}
 	
 }

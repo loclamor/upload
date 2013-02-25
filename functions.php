@@ -206,6 +206,11 @@ function firstchartoupper($chaine,$delim = ' '){
 	}
 }
 
+function firstchartolower($chaine){
+	$char = strtolower(substr($chaine, 0, 1));
+	return $char.(substr($chaine, 1));
+}
+
 /**
  * 
  * To bytes converter ...

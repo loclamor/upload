@@ -1,8 +1,10 @@
 <?php
 
 class Page_Upload_DoConnexion extends Page {
-	public function __construct($pseudo, $pwd) {
-		
+	
+	public function controller($mixed) {
+		$pseudo = $mixed['pseudo'];
+		$pwd = $mixed['pwd'];
 		//TODO code de connexion à revoir : le parcours de tous les utilisateurs n'est pas viable si le site grossi
 		
 		$log = new Logger('./logs');

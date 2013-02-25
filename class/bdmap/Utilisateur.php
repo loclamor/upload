@@ -3,6 +3,7 @@
 class Bdmap_Utilisateur extends Entite {
 	
 	public $id;
+	public $uniqid;
 	public $pseudo;
 	public $nom;
 	public $prenom;
@@ -15,6 +16,7 @@ class Bdmap_Utilisateur extends Entite {
 	public $DB_table = 'utilisateur';
 	public $DB_equiv = array(
 		'id' => 'id',
+		'uniqid' => 'uniqid',
 		'pseudo' => 'pseudo',
 		'nom' => 'nom',
 		'prenom' => 'prenom',
@@ -27,6 +29,10 @@ class Bdmap_Utilisateur extends Entite {
 	
 	public function getId() {
 		return $this->id;
+	}
+	
+	public function getUniqid() {
+		return $this->uniqid;
 	}
 	
 	public function getPseudo() {
@@ -63,6 +69,10 @@ class Bdmap_Utilisateur extends Entite {
 
 	public function setId($id) {
 		$this->id = $id;
+	}
+	
+	public function setUniqid($id) {
+		$this->uniqid = $id;
 	}
 	
 	public function setPseudo($pseudo) {

@@ -1,6 +1,6 @@
 .git
 .settings
-_images
+albums
 conf/dbpass.php
 .buildpath
 .project

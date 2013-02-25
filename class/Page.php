@@ -8,12 +8,36 @@ abstract class Page {
 	private $confirm = array();
 	private $infos = array();
 	
-	public abstract function __construct();
+	public function __construct($mixed = null) {
+		//appel du controller de la classe fille
+		$this->controller($mixed);
+		//récupération du nom de la classe fille
+		$subClass = get_class($this);
+		//le but est ici d'ajouter le répertoire view avant le nom de la vue
+		$pathArray = explode("_",$subClass);
+		$fileName = $pathArray[count($pathArray)-1];
+		$pathArray[count($pathArray)-1] = 'view';
+		$pathArray[] = $fileName;
+		
+		
+		$path = 'class/'.implode('/',$pathArray).'.phtml';
+		//enfin on importe, si le PHTML a été défini
+		if(file_exists($path)){
+			ob_start();
+			require $path;
+			$file = ob_get_clean();
+			$this->addElement('content', $file);
+		}
+	}
+	
+	//obligé de mettre un param $mixed pour les pages appelées avec un ou des paramètres
+	public abstract function controller($mixed) ;
 	
 	public function get($glue = "\n"){
 		return implode($glue, $this->content);
 	}
 	
+
 	/**
 	 * Ajoute du contenu dans un element particulier
 	 * @param String $var l'element

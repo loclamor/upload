@@ -14,7 +14,8 @@ $site = new Site_Upload();
 
 		<link rel="stylesheet" media="screen" type="text/css" title="style" href="css/bootstrap.min.css" />
 		<link rel="stylesheet" media="screen" type="text/css" title="style" href="style/supplement.css" />
-		<link media="all" type="text/css" href="css/smoothness/jquery-ui-1.8.21.custom.css" rel="stylesheet">
+		<link media="all" type="text/css" href="css/smoothness/jquery-ui-1.8.18.custom.css" rel="stylesheet">
+		<link media="all" type="text/css" href="css/fileuploader.css" rel="stylesheet">
 		
 		 
 		<script src="js/jquery-1.7.1.min.js" type="text/javascript" language="javascript" ></script>
@@ -22,6 +23,7 @@ $site = new Site_Upload();
 		<script src="js/jquery-ui-1.8.21.custom.min.js" type="text/javascript" language="javascript" ></script>
 		<script src="js/functions.js" type="text/javascript" language="javascript" ></script>
 		<script src="js/bootstrap.min.js" type="text/javascript" language="javascript" ></script>
+		<script src="js/fileuploader.js" type="text/javascript" language="javascript" ></script>
 		
 		<?php if(APPLICATION_ENV == 'prod') {?>
 		<script type="text/javascript">
@@ -63,7 +65,7 @@ $site = new Site_Upload();
 		<div id="foot" class="row-fluid" >
 			<div class="span12 footer"><?php echo $site->getFoot();?></div>
 		</div>
-		
+		<div id="notification-box"></div>
 		<style>
 			.ui-autocomplete-loading { background: white url('css/smoothness/images/ui-anim_basic_16x16.gif') right center no-repeat; }
 		</style>

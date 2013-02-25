@@ -87,7 +87,7 @@ class qqFileUploader {
         
         if ($postSize < $this->sizeLimit || $uploadSize < $this->sizeLimit){
             $size = max(1, $this->sizeLimit / 1024 / 1024) . 'M';             
-            die("{'error':'augmenter les variables d\'initialisation post_max_size et upload_max_filesize à $size'}");    
+            die("{'error':'augmenter les variables d\'initialisation post_max_size et upload_max_filesize à $size','success':'false'}");    
         }        
     }
     
@@ -107,21 +107,21 @@ class qqFileUploader {
      */
     function handleUpload($uploadDirectory, $replaceOldFile = FALSE){
         if (!is_writable($uploadDirectory)){
-            return array('error' => "Erreur serveur : le répertoire de téléchargement n\'est pas accessible en écriture : ".$uploadDirectory);
+            return array('error' => "Erreur serveur : le répertoire de téléchargement n\'est pas accessible en écriture : ".$uploadDirectory,'success' => false);
         }
         
         if (!$this->file){
-            return array('error' => 'Pas de fichier envoyé');
+            return array('error' => 'Pas de fichier envoyé','success' => false);
         }
         
         $size = $this->file->getSize();
         
         if ($size == 0) {
-            return array('error' => 'Le fichier est vide');
+            return array('error' => 'Le fichier est vide','success' => false);
         }
         
         if ($size > $this->sizeLimit) {
-            return array('error' => 'Le fichier est trop gros');
+            return array('error' => 'Le fichier est trop gros','success' => false);
         }
         
         $pathinfo = pathinfo($this->file->getName());
@@ -132,7 +132,8 @@ class qqFileUploader {
 
         if($this->allowedExtensions && !in_array(strtolower($ext), $this->allowedExtensions)){
             $these = implode(', ', $this->allowedExtensions);
-            return array('error' => 'Le fichier a une extention non autorisée. Les extentions autorisées sont '. $these . '.');
+            return array('error' => 'Le fichier a une extention non autorisée. Les extentions autorisées sont '. $these . '.',
+                        			'success' => false);
         }
         
         if(!$replaceOldFile){
@@ -155,11 +156,13 @@ class qqFileUploader {
         //	unlink($uploadFile);
             return array('success'=>true,
             			 'uploadedFile' => $uploadFile,
+            			 'fileName' => $filename . '.' . $ext,
             			 'datePV' => $datePV
             			 );
         } else {
             return array('error'=> 'Impossible d\'enregistrer le fichier.' .
-                'L\'envoi a été annulé, ou une erreur serveur est survenue');
+                'L\'envoi a été annulé, ou une erreur serveur est survenue',
+            			 'success' => false);
         }
         
     }    
@@ -168,47 +171,65 @@ class qqFileUploader {
  * Création du rep
  */
 
-//on récupère les noms du lieu, du pays, du continent
-$lieu = GestionLieux::getInstance()->getLieu($_GET['idLieu']);
-$pays = GestionPays::getInstance()->getPays($lieu->getIdPays());
-$continent = GestionContinents::getInstance()->getContinent($pays->getIdContinent());
-if (($lieu instanceof Lieu) and ($pays instanceof Pays) and ($continent instanceof Continent)) {
-//	debug($_FILES);
-	
-	$nomLieu = noSpecialChar($lieu->getNom());
-	$nomPays = noSpecialChar($pays->getNom());
-	$nomCont = noSpecialChar($continent->getNom());
-	
-	$dos = strtolower(substr($nomCont,0,2).'/'.$nomPays.'/'.$nomLieu);
-	
-//	echo $dos.'/'.$nomPhoto;
-	
-	if(!is_dir('images/'.$dos)){
-		if(!is_dir(strtolower('images/'.substr($nomCont,0,2).'/'.$nomPays))){
-			if(!is_dir(strtolower('images/'.substr($nomCont,0,2)))){
-				if(!is_dir(strtolower('images/'))){
-					mkdir(strtolower('images/'),0777);
+$album = Gestionnaire::getGestionnaire("album")->getOne($_GET['idAlbum']);
+if (($album instanceof Bdmap_Album)) {
+	$user = Gestionnaire::getGestionnaire("utilisateur")->getOne($album->getIdUtilisateur());
+	if($user instanceof Bdmap_Utilisateur) {
+		if($user->getId() == $_SESSION['upload']['id']){
+
+			$dos = 'albums/user_'.$user->getUniqid().'/album_'.$album->getUniqid();
+			
+		//	echo $dos.'/'.$nomPhoto;
+			
+			if(!is_dir($dos)){
+				if(!is_dir('albums/user_'.$user->getUniqid())){
+					if(!is_dir('albums')){
+						mkdir('albums/',0777);
+					}
+					mkdir('albums/user_'.$user->getUniqid(),0777);
 				}
-				mkdir(strtolower('images/'.substr($nomCont,0,2)),0777);
+				mkdir($dos,0777);
 			}
-			mkdir(strtolower('images/'.substr($nomCont,0,2).'/'.$nomPays),0777);
+			// list of valid extensions, ex. array("jpeg", "xml", "bmp")
+			$allowedExtensions = array("jpeg", "jpg");
+			// max file size in bytes
+			if(APPLICATION_ENV == 'prod') {
+				$sizeLimit = 8 * 1024 * 1024;
+			}
+			else {
+				$sizeLimit = 2 * 1024 * 1024;
+			}
+			
+			$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
+			$result = $uploader->handleUpload($dos.'/');
+			
+			if(isset($result['success'])){
+				if($result['success']===true){
+					$photo = new Bdmap_Photo();
+					$photo->setDateUpload(date("Y-m-d H:i:s",time()));
+					$photo->setIdAlbum($album->getId());
+					$photo->setLegende($result['fileName']);
+					$photo->setUniqid(uniqid());
+					$idPhoto = $photo->enregistrer();
+					$result['idPhoto'] = $idPhoto;
+				}
+				else {
+					$result['success'] = false;
+				}
+			}
+			else {
+				$result['success'] = false;
+			}
+			// to pass data through iframe you will need to encode all html tags
+			echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
 		}
-		mkdir(strtolower('images/'.$dos),0777);
-	}
-	// list of valid extensions, ex. array("jpeg", "xml", "bmp")
-	$allowedExtensions = array("jpeg", "jpg");
-	// max file size in bytes
-	if(APPLICATION_ENV == 'prod') {
-		$sizeLimit = 8 * 1024 * 1024;
+		else {
+			echo '{success:false}';
+		}
 	}
 	else {
-		$sizeLimit = 2 * 1024 * 1024;
+		echo '{success:false}';
 	}
-	
-	$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
-	$result = $uploader->handleUpload('images/'.$dos.'/');
-	// to pass data through iframe you will need to encode all html tags
-	echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
 }
 else {
 	echo '{success:false}';

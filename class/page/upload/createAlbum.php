@@ -1,15 +1,26 @@
 <?php
 class Page_Upload_CreateAlbum extends Page {
 	
-	public function __construct(){
+	public function controller($mixed){
 		
-		
-		
-		$this->add('<div class="row-fluid">');
-			$this->add('<div class="span12">Cr&eacute;ation d\'un nouvel album :</div>');
+		if(!isset($_GET['idAlbum'])) {
+			$this->addTitle('Nouvel Album');
 			
-		$this->add('</div>');
-
+			$album = new Bdmap_Album();
+			$album->setIdUtilisateur($_SESSION['upload']['id']);
+			$album->setUniqid(uniqid());
+			$date = date("Y-m-d H:i:s",time());
+			$album->setDateCreation($date);
+			$album->setDateMiseAJour($date);
+			$album->enregistrer();
+		}
+		else {
+			$album = Gestionnaire::getGestionnaire('Album')->getOne($_GET['idAlbum']);
+			//TODO : vérifier que l'utilisateur est dans son album
+		}
+		
+		$this->urlAction = new Url();
+		$this->album = $album;
 		
 	}
 }

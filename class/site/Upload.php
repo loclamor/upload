@@ -11,10 +11,9 @@ class Site_Upload extends Site {
 		$this->addElement('title', SITE_NAME);
 		
 		//on crée les éléments généraux du footer
-		$this->addFoot('MondoPhoto Upload Service v'.VERSION.'', 'foot_version','span');
-		$this->addFoot(' - &copy; 2012 loclamor', 'foot_copyright','span');
-	//	$this->addElement('foot', 'MondoPhoto Upload Service v'.VERSION);
-	//	$this->addElement('foot', '&copy; 2012 loclamor');
+		$this->addFoot('<span id="foot_version">MondoPhoto Upload Service v'.VERSION.'</span>');
+		$this->addFoot('<span class="separator"> - </span>');
+		$this->addFoot('<span id="foot_copyright">&copy; 2012 loclamor</span>');
 		
 		//on vérifie que on a bien une page de demandée
 		if(isset($_GET['page']) and !empty($_GET['page'])){
@@ -27,12 +26,13 @@ class Site_Upload extends Site {
 		$url = new Url();
 		$url->addParam('page', 'accueil');
 		
-		//<ul id="onglets" class="nav">
-		$this->addMenu('', "onglets", "ul", array("class"=>"nav"));
-		$this->addMenu('<a class="brand" href="'.$url->getUrl().'">MondoPhoto Upload Service</a>', "onglet_1", "li", array(), 'onglets');
+		$this->addMenu('<li id="onglet_1"><a class="brand" href="'.$url->getUrl().'">MondoPhoto Upload Service</a></li>','onglets', "ul", array("class"=>"nav"));
 		
 
 		$this->user_connected = false;
+		if(!isset($_SESSION['upload']['isConnect'])){
+			$_SESSION['upload']['isConnect'] = null;
+		}
 		//on vérifie la connexion
 		if(!isset($_SESSION['upload']['isConnect']) and $_SESSION['upload']['isConnect'] != 'true'){
 			if(isset($_POST['pwd']) and !empty($_POST['pwd']) and isset($_POST['pseudo']) and !empty($_POST['pseudo'])) {
@@ -57,35 +57,27 @@ class Site_Upload extends Site {
 			// on construit le menu
 			$url = new Url();
 			
-			$this->addMenu('', "onglet_divider_1", "li", array('class'=>'divider-vertical'), 'onglets');
-			$this->addMenu('<a href="#" >Connect&eacute; en tant que '.$this->user->getPseudo().'</a>', "onglet_profil", "li", array(), 'onglets');
+			$this->addMenu('<li id="onglet_divider_1" class="divider-vertical" ></li>', 'onglets');
+			$this->addMenu('<li id="onglet_profil" ><a href="#" >Connect&eacute; en tant que '.$this->user->getPseudo().'</a></li>', 'onglets');
 			
 			$url->addParam('page', 'deconnexion');
-			$this->addMenu('<a class="" href="'.$url->getUrl().'"><i class="icon-off"></i> Se deconnecter</a>', "onglet_deconnection", "li", array(), 'onglets');
+			$this->addMenu('<li id="onglet_deconnection" ><a class="" href="'.$url->getUrl().'"><i class="icon-off"></i> Se deconnecter</a></li>', 'onglets');
 			
 			//quand on est connecté il faut aussi construire l'interface d'onglets
-			//on ne met que l'ouverture des éléments, les fermetures seront mise après le contenu de la page
 			//donc 1 page de contenu = 1 onglet
-			
-			
-			
-			$this->addContent('', 'main-tab', 'div', array('class'=>'tabbable tabs-left'));
-			//$this->addElement('content','<div class="tabbable tabs-left">');
-				$this->addContent('', 'main-tab-nav', 'ul', array('class'=>'nav nav-tabs'),'main-tab');
-				//$this->addElement('content','<ul class="nav nav-tabs">');
-					$urlTab = new Url(true);
-					$urlTab->addParam('page', 'albums');
-					$class = ($this->page=='albums'||$this->page=='accueil'||empty($this->page)?'active':'');
-					$this->addContent('<a href="'.$urlTab->getUrl().'" >Mes albums</a>', 'main-tab-nav-li_1', 'li', array('class'=>$class),'main-tab-nav');
-					//$this->addElement('content','<li class="'.($this->page=='albums'||$this->page=='accueil'||empty($this->page)?'active':'').'"><a href="'.$urlTab->getUrl().'" >Mes albums</a></li>');
-					$urlTab->addParam('page', 'create');
-					$class = ($this->page=='create'?'active':'');
-					$this->addContent('<a href="'.$urlTab->getUrl().'" >Cr&eacute;er un album</a>', 'main-tab-nav-li_2', 'li', array('class'=>$class),'main-tab-nav');
-					//$this->addElement('content','<li class="'.($this->page=='create'?'active':'').'"><a href="'.$urlTab->getUrl().'" >Créer un album</a></li>');
-					
-				//$this->addElement('content','</ul>');
-				$this->addContent('', 'main-tab-content', 'div', array('class'=>'tab-content'),'main-tab');
-				//$this->addElement('content', '<div class="tab-content">');
+
+			$this->addContent('<ul class="nav nav-tabs" id="main-tab-nav"></ul>','main-tab','div',array('class'=>'tabbable tabs-left'));
+				$urlTab = new Url(true);
+				$urlTab->addParam('page', 'albums');
+				$class = ($this->page=='albums'||$this->page=='accueil'||empty($this->page)?'active':'');
+				$this->addContent('<li class="'.$class.'" id="main-tab-nav-li_album"><a href="'.$urlTab->getUrl().'" >Mes albums</a></li>','main-tab-nav');
+				$urlTab->addParam('page', 'create');
+				$class = ($this->page=='create'?'active':'');
+				$this->addContent('<li class="'.$class.'" id="main-tab-nav-li_new"><a href="'.$urlTab->getUrl().'" >Cr&eacute;er un album</a></li>','main-tab-nav');
+				$urlTab->addParam('page', 'compte');
+				$class = ($this->page=='compte'?'active':'');
+				$this->addContent('<li class="'.$class.'" id="main-tab-nav-li_compte"><a href="'.$urlTab->getUrl().'" >Mon compte</a></li>','main-tab-nav');
+			$this->addContent('<div class="tab-content" id="main-tab-content" ></div>','main-tab');
 				
 		}
 		
@@ -111,23 +103,20 @@ class Site_Upload extends Site {
 				//par défaut, on affiche l'accueil
 				$this->getAlbums();
 		}
-		
-		//si on est connecté, on affiche la fermeture des balises des onglets
-/*		if($this->user_connected) {
-			$this->addElement('content','</div>');
-			$this->addElement('content','</div>');
-		}
-*/		
+	
 		$nbAdmQuery = SQL::getInstance()->getNbAdmQuery();
 		$nbQuery = SQL::getInstance()->getNbQuery();
 		
-		$this->addFoot(' - '.$nbAdmQuery.'/'.$nbQuery.' requ&ecirc;tes', 'foot_queries','span');
-		
+		$this->addFoot('<span class="separator"> - </span>');
+		$this->addFoot('<span id="foot_queries">'.$nbAdmQuery.'/'.$nbQuery.' requ&ecirc;tes</span>');
+	
 		$temps = microtime();
 		$temps = explode(' ', $temps);
 		$this->microtimeEnd = $temps[1] + $temps[0];
 		
-		$this->addFoot(' - page g&eacute;n&eacute;r&eacute;e en '.round(($this->microtimeEnd - $this->microtimeStart),3).' secondes', 'foot_time','span');
+		
+		$this->addFoot('<span class="separator"> - </span>');
+		$this->addFoot('<span id="foot_time">page g&eacute;n&eacute;r&eacute;e en '.round(($this->microtimeEnd - $this->microtimeStart),3).' secondes</span>');
 		
 	}
 	
@@ -144,7 +133,7 @@ class Site_Upload extends Site {
 	}
 	
 	public function doConnexion($pseudo, $pwd) {
-		$this->addPage(new Page_Upload_DoConnexion($pseudo, $pwd));
+		$this->addPage(new Page_Upload_DoConnexion(array('pseudo'=>$pseudo, 'pwd'=>$pwd)));
 		
 		$this->log->log('infos', 'infos_connections', 'demande de connection pour '.$pseudo, Logger::GRAN_MONTH);
 		
@@ -165,7 +154,7 @@ class Site_Upload extends Site {
 	
 	public function getAlbums(){
 		
-		$this->addPage(new Page_Upload_Albums(),'','main-tab-content');
+		$this->addPage(new Page_Upload_Albums(),'main-tab-content');
 		
 		
 		
@@ -175,7 +164,7 @@ class Site_Upload extends Site {
 	
 	public function createAlbum(){
 		
-		$this->addPage(new Page_Upload_CreateAlbum(),'','main-tab-content');
+		$this->addPage(new Page_Upload_CreateAlbum(),'main-tab-content');
 		
 		$this->log->log('infos', 'infos_general', 'page createAlbum affichee', Logger::GRAN_MONTH);
 	}

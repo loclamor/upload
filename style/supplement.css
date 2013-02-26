@@ -83,6 +83,11 @@ body {
     outline: 0 none !important;
 }
 
+.qq-upload-drop-area, .qq-upload-drop-area-active {
+	height: 180px !important;	
+	top: -159px !important;
+}
+
 .qq-upload-list {
 	display: none;
 }
@@ -95,12 +100,17 @@ body {
 	End style fileuploader
 */
 
+
 .buttons-bottom {
 	margin-top: 20px;
 	padding-top: 12px;
 	border-top: 1px solid #E5E5E5;
 }
 
+
+/*
+	Liste de thumbnails
+*/
 ul.upload-thumbnails {
 	min-height: 380px;
 }
@@ -115,6 +125,23 @@ ul.upload-thumbnails .thumbnail {
 
 ul.upload-thumbnails .thumbnail > [id*="progressbar_"] {
 	margin-top: 63.5px;
+}
+
+ul.upload-thumbnails .thumbnail span {
+	text-align: center;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+ul.upload-thumbnails .thumbnail img.listeAlbum {
+	height: 120px !important; /* encore un coup de bootstrap qui défini âr défaut la hauteur en auto */
+}
+
+.englober {
+	padding-top: 12px;
+	padding-bottom: 12px;
 }
 
 /*

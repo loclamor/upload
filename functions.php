@@ -226,8 +226,15 @@ function toBytes($str){
     }
     return $val;
 }
-
-function redimJPEG($urlImage,$resizeSize = 500, $resizeType = 'H'){
+/**
+ * Crée une nouvelle image redimentionnée à partir de $urlImage
+ * @param String $urlImage adresse locale de l'image d'origine
+ * @param integer $resizeSize taille de redimentionnement
+ * @param char $resizeType [optional] 'H' ou 'L' définit le type de redimention, c'est a dire si $resizeSize est une hauteur ('H') ou une largeur ('L')
+ * @param String $newUrl [optional] l'adresse + nom de l'image en sortie
+ * @return String url de la nouvelle image, par defaut de la forme {basename($urlImage)}.min{resizeType}{resizeSize}.{extention} ou false en cas d'erreur 
+ */
+function redimJPEG($urlImage,$resizeSize = 500, $resizeType = 'H', $newUrl = 'default'){
 	if($imageOrigine = imagecreatefromjpeg($urlImage) or die('erreur')){
 		$tailleOrigine = getimagesize($urlImage, $info);
 		if($resizeType == 'L'){
@@ -240,14 +247,20 @@ function redimJPEG($urlImage,$resizeSize = 500, $resizeType = 'H'){
 			$hauteur = $resizeSize;
 			$largeur = ( ($tailleOrigine[0] * (($hauteur)/$tailleOrigine[1])) );
 		}
+		else {
+			return false;
+		}
 		
 		$nouvelleImage = imagecreatetruecolor($largeur , $hauteur) or die ("Erreur");
 		imagecopyresampled($nouvelleImage , $imageOrigine  , 0,0, 0,0, $largeur, $hauteur, $tailleOrigine[0],$tailleOrigine[1]);
 		imagedestroy($imageOrigine);
 		
-		$temp = explode('.',$urlImage);
-		$newUrl = $temp[0] . '_' . intval($largeur). 'x' . intval($hauteur) . '.' . $temp[1];
 		
+		if($newUrl == 'default') {
+			//$newUrl = $temp[0] . '_' . intval($largeur). 'x' . intval($hauteur) . '.' . $temp[1];
+			$path_parts = pathinfo($urlImage);
+			$newUrl = $path_parts['dirname'].'/'.$path_parts['filename'].'.min'.$resizeType.$resizeSize.'.'.$path_parts['extension'];
+		}
 		imagejpeg($nouvelleImage , $newUrl, 100);
 	
 		return $newUrl;

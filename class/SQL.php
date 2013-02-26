@@ -8,6 +8,9 @@ class SQL {
 	private $last_sql_error = null;
 	private $nb_query = 0;
 	private $nb_adm_query = 0;
+	private $nb_sql_errors = 0;
+	
+	private $log;
 	
 	public static function getInstance() {
 		if(is_null(self::$instance)) {
@@ -16,6 +19,10 @@ class SQL {
 		return self::$instance;
 	}
 	
+	public function __construct(){
+		$this->log = new Logger('./logs');
+		$this->log->setBaseString('SQL : ');
+	}
 	/**
 	 * 
 	 * @param string $requete
@@ -33,8 +40,11 @@ class SQL {
 		$rep = mysql_query($requete);
 		//debug($rep);
 		$this->setLastError(mysql_error());
-		
-		echo $this->last_sql_error;
+		if($this->last_sql_error != ''){
+			//echo $this->last_sql_error;
+			$this->nb_sql_errors++;
+			$this->log->log('sql', 'erreurs_sql', $this->getLastQuery() . ' : ' . $this->last_sql_error, Logger::GRAN_MONTH);
+		}
 		
 		$row = false;
 		if(strtoupper(substr($requete, 0, 6)) == 'SELECT') {
@@ -78,7 +88,11 @@ class SQL {
 		//debug($rep);
 		$this->setLastError(mysql_error());
 		
-		echo $this->last_sql_error;
+		if($this->last_sql_error != ''){
+			//echo $this->last_sql_error;
+			$this->nb_sql_errors++;
+			$this->log->log('sql', 'erreurs_sql', $this->getLastQuery() . ' : ' . $this->last_sql_error, Logger::GRAN_MONTH);
+		}
 		
 		$row = false;
 		if(strtoupper(substr($requete, 0, 6)) == 'SELECT') {
@@ -125,5 +139,9 @@ class SQL {
 	
 	public function getNbAdmQuery() {
 		return $this->nb_adm_query;
+	}
+	
+	public function getNbErrors() {
+		return $this->nb_sql_errors;
 	}
 }

@@ -80,12 +80,14 @@ class Gestionnaire {
 	
 	/**
 	 * Retourne les enregistrements corespondant aux conditions
-	 * @param array $mixedConditions [var, value]
-	 * @param unknown_type $orderby
-	 * @param unknown_type $desc
-	 * Array of the $this->class
+	 * @param array $mixedConditions [var, value] (WHERE var = value AND ...)
+	 * @param string $orderby [optional, default 'id'] (ORDER BY $orderby)
+	 * @param boolean $desc [optional, default false] si true DESC sinon ASC
+	 * @param integer $limitDown [optional, default 0] cf $limitUp
+	 * @param integer $limitUp [optional, default 0] si $limitUp > $limitDown alors (LIMIT $limitDown, $limitUp)
+	 * @return Array<Entite> ($this->class) ou false si pas de resultat
 	 */
-	public function getOf(array $mixedConditions, $orderby = 'id', $desc = false) {
+	public function getOf(array $mixedConditions, $orderby = 'id', $desc = false, $limitDown = 0, $limitUp = 0) {
 		if(!is_null($orderby) && !empty($orderby)) {
 			$desc = $desc?'DESC':'ASC';
 			$orderby = ' ORDER BY ' . $orderby;
@@ -93,11 +95,17 @@ class Gestionnaire {
 		else {
 			$orderby = '';
 		}
+		if($limitUp > $limitDown){
+			$limit = ' LIMIT '.$limitDown.', '.$limitUp;
+		}
+		else {
+			$limit = '';
+		}
 		$cond = array();
 		foreach ($mixedConditions as $var => $value){
 			$cond[] = $this->class->DB_equiv[$var].' = \''.$value.'\'';
 		}
-		$res = SQL::getInstance()->exec('SELECT '.$this->class->DB_equiv['id'].' FROM '.TABLE_PREFIX.$this->class->DB_table.' WHERE '.implode(' AND ',$cond).$orderby);
+		$res = SQL::getInstance()->exec('SELECT '.$this->class->DB_equiv['id'].' FROM '.TABLE_PREFIX.$this->class->DB_table.' WHERE '.implode(' AND ',$cond).$orderby.$limit);
 		if($res) { //cas ou aucun retour requete (retour FALSE)
 			$all = array();
 			foreach ($res as $row) {
@@ -114,6 +122,7 @@ class Gestionnaire {
 	 * 
 	 * Enter description here ...
 	 * @param array $mixedConditions [var, value]
+	 * @return integer
 	 */
 	public function countOf(array $mixedConditions) {
 		$cond = array();

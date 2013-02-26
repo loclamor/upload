@@ -41,6 +41,17 @@ class Bdmap_Photo extends Entite {
 		return $this->url;
 	}
 	
+	public function getMinUrl($minType = 'H', $minSize = 120){
+		$path_parts = pathinfo($this->getUrl());
+		$minUrl = $path_parts['dirname'].'/'.$path_parts['filename'].'.min'.$minType.$minSize.'.'.$path_parts['extension'];
+		if(!file_exists($minUrl)) {
+			return redimJPEG($this->getUrl(), $minSize, $minType, $minUrl);
+		}
+		else {
+			return $minUrl;
+		}
+	}
+	
 	public function getDateUpload() {
 		return $this->date_upload;
 	}

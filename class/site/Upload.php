@@ -112,14 +112,23 @@ class Site_Upload extends Site {
 		
 		$this->addFoot('<span class="separator"> - </span>');
 		$this->addFoot('<span id="foot_queries">'.$nbAdmQuery.'/'.$nbQuery.' requ&ecirc;tes</span>');
-	
+
+		
+		/*
+		 * On gère ici les notifictions
+		 */
+		if(SQL::getInstance()->getNbErrors() > 0){
+			$this->addContent('<script>$(document).ready(function(){ notify("'.SQL::getInstance()->getNbErrors().' erreurs SQL.<br/>Consultez le repertoire de logs SQL.", 3000); });</script>');
+		}
+		if(isset($_GET['notify'])){
+			$this->addContent('<script>$(document).ready(function(){ notify("'.$_GET['notify'].'", 3000); });</script>');
+		}
+		
 		$temps = microtime();
 		$temps = explode(' ', $temps);
 		$this->microtimeEnd = $temps[1] + $temps[0];
 		
-		if(isset($_GET['notify'])){
-			$this->addContent('<script>$(document).ready(function(){ notify("'.$_GET['notify'].'", 3000); });</script>');
-		}
+
 		
 		
 		$this->addFoot('<span class="separator"> - </span>');

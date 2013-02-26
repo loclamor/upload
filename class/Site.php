@@ -45,7 +45,7 @@ abstract class Site {
 	
 	/**
 	 * Constructeur, gère l'appel des pages
-	 * @param boolean $admin [optional] détermine si on est dans l'administration ou pas pour afficher ou pas certains elements
+	 * @param boolean $admin [optional, unusued] détermine si on est dans l'administration ou pas pour afficher ou pas certains elements
 	 */
 	public abstract function __construct($admin = false);
 	

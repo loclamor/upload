@@ -35,6 +35,7 @@ if(APPLICATION_ENV == 'dev') {//on est en local
 		define('URL_REWRITING','false');
 	}
 	
+	define('HOST_OF_SITE', 'http://localhost/workspace-PHP/upload');
 }
 else {//on est en prod
 	//mysql
@@ -50,7 +51,8 @@ else {//on est en prod
 	else {
 		define('URL_REWRITING','false');
 	}
-
+	
+	define('HOST_OF_SITE', 'http://'.$_SERVER['SERVER_NAME']);
 }
 
 require_once 'functions.php';

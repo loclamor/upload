@@ -69,7 +69,7 @@ class Site_Upload extends Site {
 			$this->addContent('<ul class="nav nav-tabs" id="main-tab-nav"></ul>','main-tab','div',array('class'=>'tabbable tabs-left'));
 				$urlTab = new Url(true);
 				$urlTab->addParam('page', 'albums');
-				$class = ($this->page=='albums'||$this->page=='accueil'||empty($this->page)?'active':'');
+				$class = ($this->page=='albums'||$this->page=='accueil'||$this->page=='album'||empty($this->page)?'active':'');
 				$this->addContent('<li class="'.$class.'" id="main-tab-nav-li_album"><a href="'.$urlTab->getUrl().'" >Mes albums</a></li>','main-tab-nav');
 				$urlTab->addParam('page', 'create');
 				$class = ($this->page=='create'?'active':'');
@@ -99,6 +99,9 @@ class Site_Upload extends Site {
 				break;
 			case 'createProcess' :
 				$this->doCreateAlbum();
+				break;
+			case 'album' :
+				$this->getAlbumContent($_GET['idAlbum']);
 				break;
 			case 'albums' :
 			case 'accueil' :
@@ -198,6 +201,26 @@ class Site_Upload extends Site {
 		$this->addPage(new Page_Upload_DoCreateAlbum(),'main-tab-content');
 		
 		$this->log->log('infos', 'infos_general', 'process creation album', Logger::GRAN_MONTH);
+	}
+	
+	public function getAlbumContent($idAlbum) {
+		
+		$album = Gestionnaire::getGestionnaire('album')->getOne($idAlbum);
+		
+		$urlFils = new Url(true);
+		$urlFils->addParam('page', 'albums');
+		$this->addElement('filariane', '<a href="'.$urlFils->getUrl().'">mes albums</a>');
+		
+		$urlFils = new Url(true);
+		$urlFils->addParam('page', 'album');
+		$urlFils->addParam('idAlbum', $idAlbum);
+		$this->addElement('filariane', '<a href="'.$urlFils->getUrl().'">'.$album->getNom().'</a>');
+		
+		$this->addPage(new Page_Upload_AlbumContent($idAlbum),'main-tab-content');
+		
+		
+		
+		$this->log->log('infos', 'infos_general', 'page album affichee pour l\'album '.$album->getId().' : '.$album->getNom(), Logger::GRAN_MONTH);
 	}
 	
 }

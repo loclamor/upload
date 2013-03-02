@@ -31,13 +31,18 @@ $albums = $this->albums;
 				else {
 					$img = $defaultImageMin;
 				}
+				$urlAlbum = new Url(true);
+				$urlAlbum->addParam('page', 'album');
+				$urlAlbum->addParam('idAlbum', $album->getId());
 				?>
 				<li class="span3">
 					<div class="thumbnail">
-						<img src="<?php echo $img; ?>" class="span12 listeAlbum" />
-						<span class="span12">
-							<?php echo $album->getNom(); ?>
-						</span>
+						<a href="<?php echo $urlAlbum->getUrl(); ?>">
+							<img src="<?php echo $img; ?>" class="span12 listeAlbum" />
+							<span class="span12">
+								<?php echo $album->getNom(); ?>
+							</span>
+						</a>
 					</div>
 				</li>
 				<?php 
@@ -46,6 +51,18 @@ $albums = $this->albums;
 		?>
 		</ul>
 		<?php 
+		
+		if($this->bbcodeLastAlbum){
+			$bbcode = $this->bbcodeLastAlbum;
+			
+			?>
+			<div class="row-fluid">
+			<span class="span12" >BBCode du dernier album cr&eacute;&eacute; :</span>
+			<textarea rows="10" cols="30" class="span12"><?php echo $bbcode; ?></textarea>
+			</div>
+			<?php 
+		
+		}
 	}
 	else {
 	?>

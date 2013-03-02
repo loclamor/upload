@@ -213,6 +213,7 @@ if (($album instanceof Bdmap_Album)) {
 					$photo->setUniqid(uniqid());
 					$idPhoto = $photo->enregistrer();
 					$result['idPhoto'] = $idPhoto;
+					$result['uniqid'] = $photo->getUniqid();
 				}
 				else {
 					$result['success'] = false;

@@ -9,5 +9,12 @@ class Page_Upload_Albums extends Page {
 		
 		$this->albums = Gestionnaire::getGestionnaire('album')->getOf(array('id_utilisateur' => $this->user->getId(), 'is_temp' => 0));
 		
+		$this->bbcodeLastAlbum = false;
+		
+		if(isset($_GET['albumId'])){
+			//TODO : encspsule URL pour les photos à true pour le moment
+			$this->bbcodeLastAlbum = getBBCodeFromOneAlbum(Gestionnaire::getGestionnaire('album')->getOne($_GET['albumId']),true,true);
+		}
+		
 	}
 }

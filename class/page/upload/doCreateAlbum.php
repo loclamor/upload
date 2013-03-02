@@ -3,6 +3,9 @@ class Page_Upload_DoCreateAlbum extends Page {
 	
 	public function controller($mixed){
 		
+		$urlAction = new Url(true);
+		$urlAction->addParam('page', 'accueil');
+		
 		$album = Gestionnaire::getGestionnaire('album')->getOne($_GET['idAlbum']);
 		if($album instanceof Bdmap_Album) {
 			
@@ -24,11 +27,10 @@ class Page_Upload_DoCreateAlbum extends Page {
 					}
 				}
 			}
+			$urlAction->addParam('albumId', $album->getId());
 		}
 		
 		
-		$urlAction = new Url(true);
-		$urlAction->addParam('page', 'accueil');
 		$urlAction->addParam('notify', 'Album cree');
 		redirect($urlAction->getUrl());
 		echo 'Vos photos ont &eacute;t&eacute; envoy&eacute;s.<br/><a href="'.$urlAction->getUrl().'">retour accueil</a>';

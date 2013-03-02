@@ -33,23 +33,33 @@ $album instanceof Bdmap_Album;
             onComplete: function(id, fileName, responseJSON){
                 if(responseJSON['success'] == true || responseJSON['success'] == "true"){
             		$( "#progressbar_"+id ).remove();
-            		$('#up_'+id).append('<img src="'+responseJSON['uploadedFile']+'" class="span12" style="height: 120px; margin-bottom:6px;" /><input type="text" value="'+fileName+'" name="up_legende['+responseJSON['idPhoto']+']" class="span12" maxlength="255" />');
+            		//on appelle la page getPhoto avec comme taille de miniature celle de la page albumContent
+            		// de manière à limiter le temps de chargement de cette dernière
+            		$('#up_'+id).append('<img src="./getPhoto.php?uniqidPhoto='+responseJSON['uniqid']+'&minType=H&minSize=179" class="span12" style="height: 120px; margin-bottom:6px;" /><input type="text" value="'+fileName+'" name="up_legende['+responseJSON['idPhoto']+']" class="span12" maxlength="255" />');
                 }
                 else {
                 	$( "#up_"+id ).parent().remove();
                 }
 	        },
         	onSubmit: function(id, fileName){
-	        	$('.upload-thumbnails').append('<li class="span3"><div class="thumbnail" id="up_'+id+'"><div id="progressbar_'+id+'" ></div></div></li>');
+	        	$('.upload-thumbnails').append('<li class="span3"><div class="thumbnail" id="up_'+id+'"><div id="progressbar_'+id+'" class="progress well" ><div class="bar"></div><div class="pourcentage"></div></div></div></li>');
+	        	$( "#progressbar_"+id+" .bar" ).css("width","0%");
+	        	$( "#progressbar_"+id+" .pourcentage" ).html("0%");
+				/*
 	        	$( "#progressbar_"+id ).progressbar({
 	        		 value: 0
 	        	});
-	        	
+	        	*/
 	        },
 	        onProgress: function(id, fileName, loaded, total){
+	        	var n = Math.round(loaded/total*100);
+	        	$( "#progressbar_"+id+" .bar" ).css("width",n+"%");
+	        	$( "#progressbar_"+id+" .pourcentage" ).html(n+"%");
+	        	/*
 	        	$( "#progressbar_"+id ).progressbar({
 	        		 value: (loaded/total*100)
 	        	});
+	        	*/
 	        },
 	        onCancel: function(id, fileName){
 	        	$( "#up_"+id ).parent().remove();

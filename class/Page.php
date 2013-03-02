@@ -19,8 +19,12 @@ abstract class Page {
 		$pathArray[count($pathArray)-1] = 'view';
 		$pathArray[] = $fileName;
 		
+		$newPathArray = array();
+		foreach ($pathArray as $val){
+			$newPathArray[] = firstchartolower($val);
+		}
 		
-		$path = 'class/'.implode('/',$pathArray).'.phtml';
+		$path = 'class/'.implode('/',$newPathArray).'.phtml';
 		//enfin on importe, si le PHTML a été défini
 		if(file_exists($path)){
 			ob_start();

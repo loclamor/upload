@@ -144,6 +144,16 @@ ul.upload-thumbnails .thumbnail img.listeAlbum {
 	padding-bottom: 12px;
 }
 
+.progress {
+	position: relative;
+}
+
+.pourcentage {
+	position: absolute;
+    right: 20px;
+    top: 20px;
+}
+
 /*
 	Les notifications
 */
@@ -167,4 +177,51 @@ ul.upload-thumbnails .thumbnail img.listeAlbum {
 	background-image: linear-gradient(to bottom, #eabf0b, #ffbf0b);
     background-repeat: repeat-x;
     background-color: #ffbf0b;
+}
+
+
+/*
+	Mise en forme de la page albumContent
+*/
+h2.album-name {
+	border-bottom: 1px solid #E5E5E5;
+	margin-bottom: 20px;
+	padding-bottom: 12px;
+}
+
+ul.album-thumbnails {
+	min-height: 500px;
+}
+
+ul.album-thumbnails .thumbnail {
+	height: 210px;
+}
+
+ul.album-thumbnails  > [class*="span"]{
+	margin-left: 1.3% !important;
+}
+
+ul.album-thumbnails .thumbnail span {
+	text-align: center;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+ul.album-thumbnails .thumbnail img.listePhoto {
+	float: none;
+	margin: auto;
+	width: auto;
+}
+
+ul.album-thumbnails .selected {
+	border-color: rgba(82, 168, 236, 0.8);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(82, 168, 236, 0.6);
+    outline: 0 none;
+}
+
+#bbcode-container {
+	display: none;
 }

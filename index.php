@@ -66,51 +66,6 @@ $site = new Site_Upload();
 			<div class="span12 footer"><?php echo $site->getFoot();?></div>
 		</div>
 		<div id="notification-box"></div>
-		<style>
-			.ui-autocomplete-loading { background: white url('css/smoothness/images/ui-anim_basic_16x16.gif') right center no-repeat; }
-		</style>
-		<script>
-		$(function() {
-			function log( message ) {
-				$( "#log" ).text( message ).prependTo( "#log" );
-				$( "#log" ).scrollTop( 0 );
-			}
-	
-			$( "#searchQuery" ).autocomplete({
-				source: "ajax.php?page=search",
-				minLength: 2,
-				select: function( event, ui ) {
-					//alert(ui.item.value);
-					$( "#searchQuery" ).attr('value',ui.item.value);
-					$( "#searchQuery" ).parent('form').submit();
-					/*	log( ui.item ?
-							"Selected: " + ui.item.value + " aka " + ui.item.id :
-							"Nothing selected, input was " + this.value );
-					*/
-					//alert(ui.item.value);
-				},
-				open: function( event, ui ) {
-					
-					$('.ui-autocomplete>.ui-menu-item>a').each(function(){
-						 $(this).html(Encoder.htmlDecode( $(this).html()));
-					});
-				}
-			});
-			$( "#searchQuery" ).focus(function(){
-				if( $( "#searchQuery" ).attr('value') == "Rechercher..."){
-					$( "#searchQuery" ).attr('value', "");
-					$( "#searchQuery" ).attr('style', "");
-				}
-				$( "#searchQuery" ).attr('value',Encoder.htmlDecode($( "#searchQuery" ).attr('value')));
-			});
-			$( "#searchQuery" ).focusout(function(){
-				if( $( "#searchQuery" ).attr('value') == ""){
-					$( "#searchQuery" ).attr('value', "Rechercher...");
-					$( "#searchQuery" ).attr('style', "color: #AAA;");
-				}
-			});
-		});
-		</script>
 	</body>
 </html>
 <?php 

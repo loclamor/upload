@@ -23,13 +23,13 @@ class Page_Upload_DoConnexion extends Page {
 			unset($_SESSION['upload']['isConnect']);
 			unset($_SESSION['upload']['id']);
 			$log->log('erreurs', 'erreurs_connection', 'Echec de connection pour '.$pseudo.' '.$pwd, Logger::GRAN_MONTH);
-			$urlAction->addParam('notify', 'Echec de connection pour '.$pseudo);
+			$urlAction->addParam('notify', 'Pseudo ou mot de passe incorrect.');
 		}
 		
 		
 		
 		
 		redirect($urlAction->getUrl());
-		echo 'Vous avez ï¿½tï¿½ connectï¿½.<br/><a href="'.$urlAction->getUrl().'">retour accueil</a>';
+		echo 'Vous avez été connecté.<br/><a href="'.$urlAction->getUrl().'">retour accueil</a>';
 	}
 }

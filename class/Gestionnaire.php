@@ -119,6 +119,18 @@ class Gestionnaire {
 	}
 	
 	/**
+	 * Retourne le premier enregistrement respectant les conditions
+	 * @param array $mixedConditions [var, value] (WHERE var = value AND ...)
+	 * @return Entite $this->class ou false si pas de résultat
+	 */
+	public function getOneOf(array $mixedConditions){
+		$ret = $this->getOf($mixedConditions, 'id', false, 0, 1);
+		if($ret !== false){
+			return $ret[0];
+		}
+		return $ret;
+	}
+	/**
 	 * 
 	 * Enter description here ...
 	 * @param array $mixedConditions [var, value]

@@ -361,9 +361,81 @@ function remote_file_exists ( $url ) {
 	}
 }
 
+/**
+ * Retourne le bbcode de la photo passée en paramètre
+ * @param Bdmap_Photo $photo la photo
+ * @param boolean $encapsuleUrl [optional, default true] si à true, le bbcode de la photo est entouré du bbcode du lien de la photo
+ */
+function getBBCodeFromOnePhoto(Bdmap_Photo $photo, $encapsuleUrl = true, $resize=false){
+	$bbcode = "";
+	if($encapsuleUrl){
+		$bbcode = "[url=".HOST_OF_SITE."/photo/".$photo->getUniqid().".jpg]\n";
+	}
+	
+	if($resize) {
+		$bbcode .= "    [img]".HOST_OF_SITE."/photo/".$photo->getUniqid().".minL800.jpg[/img]\n";
+	}
+	else {
+		$bbcode .= "    [img]".HOST_OF_SITE."/photo/".$photo->getUniqid().".jpg[/img]\n";
+	}
+	
+	if($encapsuleUrl){
+		$bbcode .= "[/url]\n";
+	}
+	return $bbcode;
+}
+
+/**
+ * retourne le BBCode pour un album donné, c'est a dire le bbcode de toutes les photos entouré du lien de la visionneuse d'album
+ * @param Bdmap_Album $album l'album
+ */
+function getBBCodeFromOneAlbum(Bdmap_Album $album, $photoEncapsuleUrl = false, $resize=false){
+	$bbcode = "[url=".HOST_OF_SITE."/view/".$album->getUniqid().".html]\n";
+	
+	$photos = Gestionnaire::getGestionnaire('photo')->getOf(array('id_album'=>$album->getId()));
+	foreach ($photos as $photo) {
+		if($photo instanceof Bdmap_Photo){
+			$bbcode .= getBBCodeFromOnePhoto($photo, $photoEncapsuleUrl, $resize);
+		}
+	}
+	
+	$bbcode .= "[/url]\n";
+	return $bbcode;
+}
 
 function __autoload($className){
 	$class = str_replace('_', '/', $className);
+	$classArray = explode("/", $class);
+	$newClassArray = array();
+	$page = false;
+	if(strtolower($classArray[0]) == "page" and count($classArray) > 1){
+		$page = true;
+	}
+	foreach ($classArray as $val){
+		$newClassArray[] = firstchartolower($val);
+		
+	}
+	//pour les fichiers de classes autre que Page qui n'ont pas leur première lettre en minuscule
+	if(!$page){
+		$newClassArray[count($newClassArray)-1] = $classArray[count($classArray)-1];
+	}
+	$class = implode("/", $newClassArray);
 	require_once 'class/'.$class.'.php';
 //	echo $className . " imported<br/>";
 }
+
+function emu_getallheaders() {
+        foreach ($_SERVER as $name => $value)
+       {
+           if (substr($name, 0, 5) == 'HTTP_')
+           {
+               $name = str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))));
+               $headers[$name] = $value;
+           } else if ($name == "CONTENT_TYPE") {
+               $headers["Content-Type"] = $value;
+           } else if ($name == "CONTENT_LENGTH") {
+               $headers["Content-Length"] = $value;
+           }
+       }
+       return $headers;
+    } 

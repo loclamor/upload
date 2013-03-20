@@ -55,6 +55,8 @@ else {//on est en prod
 	define('HOST_OF_SITE', 'http://'.$_SERVER['SERVER_NAME']);
 }
 
+define('PLUGINS_FOLDER','./class/plugins');
+
 require_once 'functions.php';
 
 //script de mise à jour de la BDD en fonction de la version
@@ -67,3 +69,5 @@ if(!file_exists(VERSION.'.version')){
 		die("erreur de changement de version vers ".VERSION);
 	}
 }
+
+

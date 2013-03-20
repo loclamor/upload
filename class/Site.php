@@ -47,7 +47,44 @@ abstract class Site {
 	 * Constructeur, gère l'appel des pages
 	 * @param boolean $admin [optional, unusued] détermine si on est dans l'administration ou pas pour afficher ou pas certains elements
 	 */
-	public abstract function __construct($admin = false);
+	public function __construct()
+	{
+		
+		//construction du site
+		$this->construct();
+		
+		//chargement des plugins
+		if($dossier = opendir(PLUGINS_FOLDER)){
+			while(false !== ($fichier = readdir($dossier))){
+				if($fichier != '.' && $fichier != '..'){
+					if($ss_dossier = opendir(PLUGINS_FOLDER . '/'.$fichier)){
+						$rep = $fichier;
+						//c'est un répertoire de site
+						while(false !== ($fichier = readdir($ss_dossier))){
+							if($fichier != '.' && $fichier != '..' && is_file(PLUGINS_FOLDER . '/' . $rep . '/' .$fichier)){
+								$class = getClassNameFromPath(PLUGINS_FOLDER . '/' . $rep . '/' .$fichier);
+								$class = new $class;
+								$class->setDomContent($this->DOMContent);
+								$class->exec();
+							}
+						}
+					}
+					else {
+						if(is_file(PLUGINS_FOLDER . '/' . $fichier)){
+							//c'est un fichier
+							$class = getClassNameFromPath(PLUGINS_FOLDER . '/' .$fichier);
+							$class = new $class;
+							$class->setDomContent($this->DOMContent);
+							$class->exec();
+						}
+					}
+				}
+			}
+		}
+
+	}
+	
+	public abstract function construct();
 	
 	/**
 	 * retourne le contenu de l'element title pour affichage
@@ -283,54 +320,6 @@ abstract class Site {
 		}
 	}
 	
-/*	
-	public function addXml($siteVar, $xmlToAdd, $idAdding, $idToAdd = 'root', $baseBalise = "div", $attributes = array("class"=>"noClass"))
-    {
-    	//si le dom n'est pas créé, on le cré
-        if(is_null($this->$siteVar)){   	
-        	$this->$siteVar = new DOMDocument;
-	        $this->$siteVar->formatOutput = false;
-	        $elt = $this->$siteVar->createElement($baseBalise); 
-	        $elt->setAttribute('id', $idAdding);
-	        $elt->setIdAttribute('id', true);
-	        
-	        foreach ($attributes as $attName => $attValue) {
-	        	$elt->setAttribute($attName,$attValue);
-	        }
-	        $textContent = $this->$siteVar->createTextNode($xmlToAdd);
-	        $elt->appendChild($textContent);
-	        
-	        $this->$siteVar->appendChild($elt);
-        }
-		else {    
-	        $childElt = $this->$siteVar->createElement($baseBalise);
-	    	$childElt->setAttribute('id', $idAdding);
-	        $childElt->setIdAttribute('id', true);
-	        foreach ($attributes as $attName => $attValue) {
-	        	$childElt->setAttribute($attName,$attValue);
-	        }
-	        $textContent = $this->$siteVar->createTextNode($xmlToAdd);
-	        $childElt->appendChild($textContent);
-	        
-	        //on importe le nouvel element et on l'ajoute
-	        $childElt = $this->$siteVar->importNode($childElt, true);
-	
-			//si il y a un ID auquel ataché, on le tente, sinon on met à la racine
-			//TODO : si l'ID !== null mais pas existant...
-	        if ($idToAdd !== null) {
-	            $idToAdd = $this->$siteVar->getElementById($idToAdd);
-	            if(!$idToAdd){
-	            	$this->$siteVar->documentElement->appendChild($childElt);
-	            }
-	            else {
-	           		$idToAdd->appendChild($childElt);
-	            }
-	        } else {
-	            $this->$siteVar->documentElement->appendChild($childElt);
-	        }
-		}
-    }
-*/	
 	/**
 	 * ajoute une Page $page au contenu DOMContent
 	 * @param Page $page

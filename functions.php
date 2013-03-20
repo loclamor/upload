@@ -439,3 +439,18 @@ function emu_getallheaders() {
        }
        return $headers;
     } 
+    
+    
+function getClassNameFromPath($pathFile) {
+	//class/plugins/upload/mondophoto.php
+	//Plugins_Upload_Mondophoto
+	$path = str_replace(".php", "", $pathFile);
+	$path = str_replace("./", "", $path);
+	$path = str_replace("class/", "", $path);
+	$temp = explode("/", $path);
+	$className = array();
+	foreach ($temp as $folder){
+		$className[] = strtoupper(substr($folder, 0, 1)).(substr($folder, 1));
+	}
+	return implode("_", $className);
+}

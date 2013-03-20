@@ -1,7 +1,8 @@
 <?php
 
 class Site_Upload extends Site {
-	public function __construct($admin = false) {
+	public function construct() {
+		
 		$temps = microtime();
 		$temps = explode(' ', $temps);
 		$this->microtimeStart = $temps[1] + $temps[0];

@@ -1,115 +1,157 @@
-<?php 
+<?php
 $photos = $this->photos;
 $albumName = $this->nom;
 $uniqidAlbum = $this->uniqidAlbum;
 ?>
 <div class="row-fluid">
-	<div class="span11">
-		<div class="row-fluid">
-			<h2 class="span12 album-name">
-				<?php echo $albumName; ?>
-				<button type="button" class="btn btn-bbcode-album pull-right" rel="tooltip" data-original-title="G&eacute;n&eacute;rer le BBCode de l'album" >BBCode</button>
-			</h2>
-			<ul class="thumbnails album-thumbnails">
-<?php 
-	
-	if($photos) {
-		foreach ($photos as $photo){
-			if($photo instanceof Bdmap_Photo){
-				
-			?>
-				<li class="span4">
-					<div class="thumbnail" rel="tooltip" data-original-title="Cliquez pour ajouter cette photo au BBCode g&eacute;n&eacute;r&eacute;">
-					
-						<img src="<?php echo $photo->getMinUrl("H",179); ?>" class="span12 listePhoto" private="<?php echo $photo->getUniqid(); ?>" />
-						<span class="span12">
-							<?php echo $photo->getLegende(); ?>
-						</span>
-					
-					</div>
-				</li>
-			<?php 
-			}
-		}
-	}
-	else {
-		echo "pas de photos dans cet album.";
-	}
+    <div class="span11">
+        <div class="row-fluid">
+            <h2 class="span12 album-name">
+                <?php echo $albumName; ?>
+                <button type="button" class="btn btn-bbcode-album pull-right" rel="tooltip" data-original-title="G&eacute;n&eacute;rer le BBCode de l'album avec la visionneuse" >BBCode Album</button>
+                <button type="button" class="btn btn-unselect-all pull-right tooltipFirerer" rel="tooltip" data-original-title="D&eacute;s&eacute;lectionner tout" >D&eacute;s&eacute;lectionner tout</button>
+                <button type="button" class="btn btn-select-all pull-right tooltipFirerer" rel="tooltip" data-original-title="S&eacute;lectionner tout" >S&eacute;lectionner tout</button>
+            </h2>
+            <ul class="thumbnails album-thumbnails">
+                <?php
+                if ($photos) {
+                    foreach ($photos as $photo) {
+                        if ($photo instanceof Bdmap_Photo) {
+                            ?>
+                            <li class="span4">
+                                <div class="thumbnail" rel="tooltip" data-original-title="Cliquez pour ajouter cette photo au BBCode g&eacute;n&eacute;r&eacute;">
+
+                                    <img src="<?php echo $photo->getMinUrl("H", 179); ?>" class="span12 listePhoto" private="<?php echo $photo->getUniqid(); ?>" />
+                                    <span class="span12">
+            <?php echo $photo->getLegende(); ?>
+                                    </span>
+
+                                </div>
+                            </li>
+            <?php
+        }
+    }
+} else {
+    echo "pas de photos dans cet album.";
+}
 ?>
-			</ul>
-			
-			<div class="row-fluid" id="bbcode-container">
-				<span class="span12">Vous pouvez modifier les param&egrave;tres du BBCode g&eacute;n&eacute;r&eacute;. Cliquez pour s&eacute;lectionner.</span>
-				<div class="span3 offset1">
-					
-					<div class="btn-group" data-toggle="buttons-radio">
-						<button type="button" class="btn btn-resize-type active" rel="tooltip" data-original-title="Redimentionnement selon la Largeur" resize-type="L">Largeur</button>
-						<button type="button" class="btn btn-resize-type " rel="tooltip" data-original-title="Redimentionnement selon la Hauteur" resize-type="H" >Hauteur</button>
-					</div>
-				</div>
-				<div class="span3">
-					<div class="input-append input-resize-size-container" rel="tooltip" data-original-title="Taille de redimentionnement" >
-						<input class="input-small input-resize-size" type="text" style="text-align:right;" value="800"  />
-						<span class="add-on">px</span>
-					</div>
-				</div>
-				<textarea rows="10" cols="10" class="span12" id="bbcode-area" onclick="this.select()" ></textarea>
-			</div>
-		</div>
-	</div>
+            </ul>
+
+            <div class="row-fluid" id="bbcode-container">
+                <span class="span12">Vous pouvez modifier les param&egrave;tres du BBCode g&eacute;n&eacute;r&eacute;. Cliquez pour s&eacute;lectionner.</span>
+                <div class="span3 offset1">
+
+                    <div class="btn-group" data-toggle="buttons-radio">
+                        <button type="button" class="btn btn-resize-type active" rel="tooltip" data-original-title="Redimentionnement selon la Largeur" resize-type="L">Largeur</button>
+                        <button type="button" class="btn btn-resize-type " rel="tooltip" data-original-title="Redimentionnement selon la Hauteur" resize-type="H" >Hauteur</button>
+                    </div>
+                </div>
+                <div class="span3">
+                    <div class="input-append input-resize-size-container" rel="tooltip" data-original-title="Taille de redimentionnement" >
+                        <input class="input-small input-resize-size" type="text" style="text-align:right;" value="800"  />
+                        <span class="add-on">px</span>
+                    </div>
+                </div>
+                <textarea rows="10" cols="10" class="span12" id="bbcode-area" onclick="this.select()" ></textarea>
+            </div>
+        </div>
+    </div>
 </div>
 <script>
-$(document).ready(function(){
-	$('.thumbnail').click(function(){
-		var resizeType = $('.btn-resize-type.active').attr('resize-type');
-		var resizeSize = $('.input-resize-size').val();
-		if($(this).hasClass('selected')){
-			$(this).removeClass('selected');
-			$(this).attr("data-original-title","Cliquez pour ajouter cette photo au BBCode genere");
-			if($('.selected').length == 0){
-				$('#bbcode-container').animate({ height: 'toggle', opacity: 'toggle' }, 'slow');
-			}
-			generateBBCode(resizeType,resizeSize);
-		}
-		else {
-			$(this).addClass('selected');
-			$(this).attr("data-original-title","Cliquez pour enlever cette photo du BBCode genere");
-			if($('.selected').length == 1){
-				$('#bbcode-container').animate({ height: 'toggle', opacity: 'toggle' }, 'slow');
-			}
-			generateBBCode(resizeType,resizeSize);
-		}
-	});
-	$('.btn-resize-type, .input-resize-size-container, .btn-bbcode-album, .thumbnail').tooltip();
+    var isBBCode = false;
+    $(document).ready(function() {
+        
+        $('.btn-select-all').click(function(){
+            $('.thumbnail').each(function(){
+                if ( !$(this).hasClass('selected') ) {
+                    $(this).click();
+                }
+            });
+            isBBCode = false;
+        });
+        
+        $('.btn-unselect-all').click(function(){
+            $('.thumbnail').each(function(){
+                if ( $(this).hasClass('selected') ) {
+                    $(this).click();
+                }
+            });
+            isBBCode = false;
+        });
+        
+        $('.thumbnail').click(function() {
+            var resizeType = $('.btn-resize-type.active').attr('resize-type');
+            var resizeSize = $('.input-resize-size').val();
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+                $(this).attr("data-original-title", "Cliquez pour ajouter cette photo au BBCode genere");
+                if ($('.selected').length == 0) {
+                    $('#bbcode-container').animate({height: 'toggle', opacity: 'toggle'}, 'slow');
+                }
+                generateBBCode(resizeType, resizeSize);
+            }
+            else {
+                $(this).addClass('selected');
+                $(this).attr("data-original-title", "Cliquez pour enlever cette photo du BBCode genere");
+                if ($('.selected').length == 1) {
+                    $('#bbcode-container').animate({height: 'toggle', opacity: 'toggle'}, 'slow');
+                }
+                generateBBCode(resizeType, resizeSize);
+            }
+            isBBCode = false;
+        });
+        $('.tooltipFirerer, .btn-resize-type, .input-resize-size-container, .btn-bbcode-album, .thumbnail').tooltip();
 
-	$('.btn-resize-type').click(function(){
-		var resizeSize = $('.input-resize-size').val();
-		generateBBCode($(this).attr('resize-type'),resizeSize);
-	});
+        $('.btn-resize-type').click(function() {
+            var resizeSize = $('.input-resize-size').val();
+            if( isBBCode ) {
+                setBBCodeAlbum( $(this).attr('resize-type'), resizeSize );
+            }
+            else {
+                generateBBCode($(this).attr('resize-type'), resizeSize);
+            }
+        });
 
-	$('.input-resize-size').change(function(){
-		var resizeType = $('.btn-resize-type.active').attr('resize-type');
-		generateBBCode(resizeType,$(this).val());
-	});
-	
-	$('.input-resize-size').keyup(function(){
-		var resizeType = $('.btn-resize-type.active').attr('resize-type');
-		generateBBCode(resizeType,$(this).val());
-	});
+        $('.input-resize-size').change(function() {
+            var resizeType = $('.btn-resize-type.active').attr('resize-type');
+            if( isBBCode ) {
+                setBBCodeAlbum( resizeType, $(this).val() );
+            }
+            else {
+                generateBBCode(resizeType, $(this).val());
+            }
+        });
 
-	$('.btn-bbcode-album').click(function(){
-		var resizeType = $('.btn-resize-type.active').attr('resize-type');
-		var resizeSize = $('.input-resize-size').val();
-		$('.thumbnail').each(function(){$(this).addClass('selected');});
-		
-		generateBBCodeWithOutUrl(resizeType,resizeSize);
+        $('.input-resize-size').keyup(function() {
+            var resizeType = $('.btn-resize-type.active').attr('resize-type');
+            if( isBBCode ) {
+                setBBCodeAlbum( resizeType, $(this).val() );
+            }
+            else {
+                generateBBCode(resizeType, $(this).val());
+            }
+        });
 
-		var bbcodeUrl = '[url='+HOST_OF_SITE+'view/'+'<?php echo $uniqidAlbum; ?>'+'.html]';
-		$('#bbcode-area').prepend(bbcodeUrl+'\n');
-		$('#bbcode-area').append('[/url]\n');
-		
-		$('#bbcode-container').slideDown('slow').fadeIn('slow');
-	});
-});
+        $('.btn-bbcode-album').click(function() {
+            var resizeType = $('.btn-resize-type.active').attr('resize-type');
+            var resizeSize = $('.input-resize-size').val();
+            $('.thumbnail').each(function() {
+                $(this).addClass('selected');
+            });
+
+            setBBCodeAlbum( resizeType, resizeSize );
+
+            $('#bbcode-container').slideDown('slow').fadeIn('slow');
+            isBBCode = true;
+        });
+        
+        function setBBCodeAlbum( resizeType, resizeSize ) {
+            generateBBCodeWithOutUrl(resizeType, resizeSize);
+
+            var bbcodeUrl = '[url=' + HOST_OF_SITE + 'view/' + '<?php echo $uniqidAlbum; ?>' + '.html]';
+            $('#bbcode-area').prepend(bbcodeUrl + '\n');
+            $('#bbcode-area').append('[/url]\n');
+        }
+    });
 
 </script>

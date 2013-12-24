@@ -241,3 +241,8 @@ div.carousel-inner div.item {
     min-height : 512px;
     
 }
+
+.tooltip {
+    line-height: 15px;
+    padding: 10px !important;
+}

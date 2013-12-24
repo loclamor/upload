@@ -31,7 +31,7 @@ body {
 }
 
 /*
-	Style spécifique pour hacker celui par défaut du fileuploader
+	Style spï¿½cifique pour hacker celui par dï¿½faut du fileuploader
 */
 #file-uploader {
 	margin-left: 10px ;
@@ -136,7 +136,7 @@ ul.upload-thumbnails .thumbnail span {
 }
 
 ul.upload-thumbnails .thumbnail img.listeAlbum {
-	height: 120px !important; /* encore un coup de bootstrap qui défini âr défaut la hauteur en auto */
+	height: 120px !important; /* encore un coup de bootstrap qui dï¿½fini ï¿½r dï¿½faut la hauteur en auto */
 }
 
 .englober {
@@ -224,4 +224,20 @@ ul.album-thumbnails .selected {
 
 #bbcode-container {
 	display: none;
+}
+
+div.carousel {
+    margin-bottom: 0px;
+}
+
+div.carousel-inner {
+    min-height : 512px;
+    background-image: url("../img/ajax_loader_512.gif");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+div.carousel-inner div.item {
+    min-height : 512px;
+    
 }

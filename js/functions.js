@@ -1,3 +1,7 @@
+var l = document.location;
+var HOST_OF_SITE = l.protocol + "//" + l.host + document.location.pathname;
+console.log(HOST_OF_SITE);
+
 function notify(message, timeout){
 	
 	$('<div class="notif">'+message+'</div>').appendTo('#notification-box')
@@ -14,9 +18,9 @@ function generateBBCode(minType, minSize) {
 	$('.selected').each(function(){
 		var privatecode = $(this).children('img').attr('private');
 		
-		var bbcodeUrl = '[url=http://upload.mondophoto.fr/photo/'+privatecode+'.jpg]';
+		var bbcodeUrl = '[url='+HOST_OF_SITE+'photo/'+privatecode+'.jpg]';
 		
-		var bbcodeImg = '   [img]http://upload.mondophoto.fr/photo/'+privatecode+'.min'+minType+minSize+'.jpg[/img]';
+		var bbcodeImg = '   [img]'+HOST_OF_SITE+'photo/'+privatecode+'.min'+minType+minSize+'.jpg[/img]';
 		$('#bbcode-area').append(bbcodeUrl+'\n'+bbcodeImg+'\n[/url]\n');
 	});
 }
@@ -25,7 +29,7 @@ function generateBBCodeWithOutUrl(minType, minSize){
 	$('#bbcode-area').html('');
 	$('.selected').each(function(){
 		var privatecode = $(this).children('img').attr('private');
-		var bbcodeImg = '   [img]http://upload.mondophoto.fr/photo/'+privatecode+'.min'+minType+minSize+'.jpg[/img]';
+		var bbcodeImg = '   [img]'+HOST_OF_SITE+'photo/'+privatecode+'.min'+minType+minSize+'.jpg[/img]';
 		$('#bbcode-area').append(bbcodeImg+'\n');
 	});
 }

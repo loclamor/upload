@@ -2,11 +2,15 @@ Options +FollowSymLinks
 
 RewriteEngine on
 
+# special rule for local development only
+# remove me before deploy
+#RewriteBase /workspace-php/upload/
+
 # rewrite rule pour l'afficahge d'une seule photo
-# reste à vérifier coté php que la photo est accessible sans connection
+# TODO : reste à vérifier coté php que la photo est accessible sans connection
 RewriteRule ^photo/(.*)\.min(H|L)([0-9]+)\.jpg$ getPhoto.php?uniqidPhoto=$1&minType=$2&minSize=$3 [L]
 RewriteRule ^photo/(.*)\.jpg$ getPhoto.php?uniqidPhoto=$1 [L]
 
 # rewrite rule pour l'affichage d'un album (donc de toutes ses photos)
-# reste à vérifier coté php que l'album est affichable sans connection, et le cas échéan proposer la connection
-RewriteRule ^view/(.*)\.html$ index.php?page=externAlbumViewer&uniqidAlbum=$1 [L]
+# TODO : reste à vérifier coté php que l'album est affichable sans connection, et le cas échéan proposer la connection
+RewriteRule ^view/(.*)\.html$ getExternAlbumViewer.php?uniqidAlbum=$1 [L]

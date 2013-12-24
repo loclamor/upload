@@ -104,7 +104,7 @@ $(document).ready(function(){
 		
 		generateBBCodeWithOutUrl(resizeType,resizeSize);
 
-		var bbcodeUrl = '[url=http://upload.mondophoto.fr/view/'+'<?php echo $uniqidAlbum; ?>'+'.html]';
+		var bbcodeUrl = '[url='+HOST_OF_SITE+'view/'+'<?php echo $uniqidAlbum; ?>'+'.html]';
 		$('#bbcode-area').prepend(bbcodeUrl+'\n');
 		$('#bbcode-area').append('[/url]\n');
 		

@@ -35,7 +35,7 @@ if(APPLICATION_ENV == 'dev') {//on est en local
 		define('URL_REWRITING','false');
 	}
 	
-	define('HOST_OF_SITE', 'http://localhost/workspace-PHP/upload');
+	define('HOST_OF_SITE', 'http://127.0.0.1/workspace-php/upload');
 }
 else {//on est en prod
 	//mysql

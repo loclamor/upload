@@ -1,4 +1,5 @@
 <?php
+session_cache_limiter ('public');
 require_once 'conf/init.php';
 
 
@@ -11,16 +12,16 @@ if(isset($_GET['uniqidPhoto']) and !empty($_GET['uniqidPhoto'])){
 	$uniqidPhoto = $_GET['uniqidPhoto'];
 	$photo = Gestionnaire::getGestionnaire('photo')->getOneOf(array('uniqid' => $uniqidPhoto));
 	if($photo instanceof Bdmap_Photo) {
-		//TODO : actions sur la privacité, à voir si utile
+		//TODO : actions sur la privacitï¿½, ï¿½ voir si utile
 
 			header("Accept-Ranges: bytes");
-			header("Content-Length: ".filesize($photo->getUrl()));
+//			header("Content-Length: ".filesize($photo->getUrl()));
 			
-			$seconds_to_cache = 60 * 60 * 24 * 30; //30 jours de cache
-			$ts = gmdate("D, d M Y H:i:s", time() + $seconds_to_cache) . " GMT";
-			header("Expires: $ts");
-			header("Pragma: cache");
-			header("Cache-Control: max-age=$seconds_to_cache");
+//			$seconds_to_cache = 60 * 60 * 24 * 30; //30 jours de cache
+//			$ts = gmdate("D, d M Y H:i:s", time() + $seconds_to_cache) . " GMT";
+//			header("Expires: $ts");
+//			header("Pragma: cache");
+//			header("Cache-Control: max-age=$seconds_to_cache");
 			header("Content-Disposition: inline; filename=\"{$photo->getLegende()}\";");
 			
 			if(isset($_GET['minType']) and isset($_GET['minSize']) and !empty($_GET['minType']) and !empty($_GET['minSize'])){
@@ -29,6 +30,9 @@ if(isset($_GET['uniqidPhoto']) and !empty($_GET['uniqidPhoto'])){
 			else {
 				readfile($photo->getUrl());
 			}
+                        /*
+                         * data:image/jpg;base64,
+                         */
 	}
 	else {
 		//photo d'ereur

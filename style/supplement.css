@@ -243,6 +243,6 @@ div.carousel-inner div.item {
 }
 
 .tooltip {
-    line-height: 15px;
-    padding: 10px !important;
+    line-height: 20px;
+/*    padding: 10px !important;*/
 }

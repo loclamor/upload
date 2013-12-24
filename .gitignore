@@ -7,3 +7,4 @@ conf/dbpass.php
 *.version
 logs/*
 /nbproject/private/
+nbproject

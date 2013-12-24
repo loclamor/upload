@@ -14,7 +14,7 @@ if(isset($_GET['uniqidPhoto']) and !empty($_GET['uniqidPhoto'])){
 	if($photo instanceof Bdmap_Photo) {
 		//TODO : actions sur la privacit�, � voir si utile
 
-			header("Accept-Ranges: bytes");
+//			header("Accept-Ranges: bytes"); //avoid cache to work correctly
 //			header("Content-Length: ".filesize($photo->getUrl()));
 			
 //			$seconds_to_cache = 60 * 60 * 24 * 30; //30 jours de cache

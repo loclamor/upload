@@ -24,6 +24,9 @@ if( !$photos ) {
     redirect("../404.html");
 }
 
+$album->setSeen( $album->getSeen() + 1 );
+$album->enregistrer( array('seen'));
+
 $albumName = $album->getNom();
 
 ?>

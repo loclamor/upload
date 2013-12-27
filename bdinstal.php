@@ -1,6 +1,6 @@
 <?php
 
-//on fait la connexion à mysql
+//on fait la connexion ï¿½ mysql
 mysql_connect(MYSQL_SERVER,  MYSQL_USER, MYSQL_PWD);
 mysql_select_db(MYSQL_DB);
 
@@ -44,5 +44,22 @@ $requete = "CREATE TABLE IF NOT EXISTS `".TABLE_PREFIX."photo`(
 )";
 mysql_query($requete);
 
-//on se déconnecte
+/**
+ * v0.1.1 seen propeties
+ */
+$requete = "ALTER TABLE  `".TABLE_PREFIX."photo` 
+    ADD  `seen` int(11) NOT NULL DEFAULT  '0'";
+$res = mysql_query($requete);
+if( $res === false ) {
+    echo mysql_error( );
+}
+
+$requete = "ALTER TABLE  `".TABLE_PREFIX."album` 
+    ADD  `seen` int(11) NOT NULL DEFAULT  '0'";
+$res = mysql_query($requete);
+if( $res === false ) {
+    echo mysql_error( );
+}
+
+//on se dï¿½connecte
 mysql_close();

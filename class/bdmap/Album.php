@@ -10,6 +10,7 @@ class Bdmap_Album extends Entite {
 	public $date_mise_a_jour = null; //AAAA-MM-JJ
 	public $privacy = "BY_LINK_ONLY";
 	public $is_temp = 1;
+        public $seen = 0;
 	
 	public $DB_table = 'album';
 	public $DB_equiv = array(
@@ -20,7 +21,8 @@ class Bdmap_Album extends Entite {
 		'date_creation' => 'date_creation',
 		'date_mise_a_jour' => 'date_mise_a_jour',
 		'privacy' => 'privacy',
-		'is_temp' => 'is_temp'
+		'is_temp' => 'is_temp',
+                'seen' => 'seen'
 	);
 	
 	public function getId() {
@@ -49,6 +51,10 @@ class Bdmap_Album extends Entite {
 	
 	public function getPrivacy() {
 		return $this->privacy;
+	}
+        
+        public function getSeen() {
+                return $this->seen;
 	}
 	
 	public function isTemp() {
@@ -85,6 +91,10 @@ class Bdmap_Album extends Entite {
 	
 	public function setTemp($bool) {
 		$this->is_temp = ($bool?1:0);
+	}
+        
+        public function setSeen($seen) {
+		$this->seen = $seen;
 	}
 	
 }

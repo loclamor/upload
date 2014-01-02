@@ -17,11 +17,20 @@ $uniqidAlbum = $this->uniqidAlbum;
                 if ($photos) {
                     foreach ($photos as $photo) {
                         if ($photo instanceof Bdmap_Photo) {
+                            $urlPhoto = $photo->getPrivateUrl();
+//                            $urlPhoto = HOST_OF_SITE.'photo/'.$photo->getUniqid()+'.jpg';
                             ?>
                             <li class="span4">
-                                <div class="thumbnail" rel="tooltip" data-original-title="Cliquez pour ajouter cette photo au BBCode g&eacute;n&eacute;r&eacute;">
-
-                                    <img src="<?php echo $photo->getMinUrl("H", 179); ?>" class="span12 listePhoto" private="<?php echo $photo->getUniqid(); ?>" />
+                                <div class="thumbnail" idPhoto="<?php echo $photo->getId(); ?>" >
+                                    <div class="seen" rel="tooltip" data-original-title="Nombre d'affichages de cette photo. Cliquez pour la visualier.">
+                                        <a href="<?php echo $urlPhoto; ?>"target="_blanck">
+                                            <i class="icon-eye-open"></i>&nbsp;<?php echo $photo->getSeen(); ?>
+                                        </a>
+                                    </div>
+                                    <div class="rotate" rel="tooltip" data-original-title="Pivoter sur la droite">
+                                        <span>&nbsp;<i class="icon-repeat">&nbsp;</i>&nbsp;</span>
+                                    </div>
+                                    <img src="<?php echo $photo->getMinUrl("H", 179); ?>" class="span12 listePhoto" private="<?php echo $photo->getUniqid(); ?>" rel="tooltip" data-original-title="Cliquez pour ajouter cette photo au BBCode g&eacute;n&eacute;r&eacute;" />
                                     <span class="span12">
             <?php echo $photo->getLegende(); ?>
                                     </span>
@@ -79,6 +88,19 @@ $uniqidAlbum = $this->uniqidAlbum;
             isBBCode = false;
         });
         
+        $('.rotate').click( function() {
+            var $thumb = $(this).parent('.thumbnail');
+            var id = $thumb.attr('idPhoto');
+            var url = "./ajax.php?page=traitementRotatePhoto&rotate=-90&imageId=" + id;
+            $.getJSON(url, function( data ) {
+                if( data.state == 'success' ) {
+                    var $img = $thumb.find("img");
+                    $img.attr('src',data.newMinUrl + '?rld=' + Math.random() ); //add a fake param to force refresh
+                    //$img.attr('private',data.newMinPrivateUrl);
+                }
+            });
+        });
+        
         $('.thumbnail').click(function() {
             var resizeType = $('.btn-resize-type.active').attr('resize-type');
             var resizeSize = $('.input-resize-size').val();
@@ -100,7 +122,7 @@ $uniqidAlbum = $this->uniqidAlbum;
             }
             isBBCode = false;
         });
-        $('.tooltipFirerer, .btn-resize-type, .input-resize-size-container, .btn-bbcode-album, .thumbnail').tooltip();
+        $('.tooltipFirerer, .btn-resize-type, .input-resize-size-container, .btn-bbcode-album, .thumbnail img, .thumbnail .seen, .thumbnail .rotate').tooltip();
 
         $('.btn-resize-type').click(function() {
             var resizeSize = $('.input-resize-size').val();

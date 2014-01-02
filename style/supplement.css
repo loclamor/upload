@@ -216,8 +216,38 @@ ul.album-thumbnails .thumbnail img.listePhoto {
 	width: auto;
 }
 
+ul.album-thumbnails .thumbnail {
+    position: relative;
+}
+
+ul.album-thumbnails .thumbnail div.seen {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    background-color: rgba(255,255,255,.5);
+    padding-left: 4px;
+    padding-right: 4px;
+    /*box-shadow: 1px 1px 12px rgba(255,255,255,.5);*/
+    /*background: radial-gradient(ellipse at center, rgba(255,255,255,.5) 0%,rgba(255,255,255,0) 80%);*/
+}
+
+ul.album-thumbnails .thumbnail div.seen a {
+    color: black;
+    text-decoration: none;
+}
+
+ul.album-thumbnails .thumbnail div.rotate {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background-color: rgba(255,255,255,.5);
+    padding-left: 4px;
+    padding-right: 4px;
+    cursor: pointer;
+}
+
 ul.album-thumbnails .selected {
-	border-color: rgba(82, 168, 236, 0.8);
+    border-color: rgba(82, 168, 236, 0.8);
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(82, 168, 236, 0.6);
     outline: 0 none;
 }

@@ -8,6 +8,9 @@ if(isset($_GET['page'])){
 		case 'traitementUploadPhoto':
 			require_once 'ajaxFiles/uploadScript.php';
 			break;
+                case 'traitementRotatePhoto':
+			require_once 'ajaxFiles/rotateImage.php';
+			break;
 		
 		default :
 			echo '{success: false}';

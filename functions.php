@@ -1,6 +1,6 @@
 <?php
 /**
- * affiche le contenu d'une variable à des fins de debogage
+ * affiche le contenu d'une variable ï¿½ des fins de debogage
  * @param var $debug
  */
 function debug($debug,$force = false){
@@ -89,7 +89,7 @@ function code($texte)
 	$texte = str_replace('#prison#', '<img src="../images/smiley/prison2.gif" alt="prison" title="prison" class="smiley" />', $texte);
 	$texte = str_replace('#haha#', '<img src="../images/smiley/rire.gif" alt="haha" title="haha" class="smiley" />', $texte);
 	$texte = str_replace('#siffle#', '<img src="../images/smiley/siffle.png" alt="siffle" title="siffle^" class="smiley" />', $texte);
-	$texte = str_replace(':-°', '<img src="../images/smiley/siffle.png" alt="siffle" title="siffle^" class="smiley" />', $texte);
+	$texte = str_replace(':-ï¿½', '<img src="../images/smiley/siffle.png" alt="siffle" title="siffle^" class="smiley" />', $texte);
 	$texte = str_replace(':)', '<img src="../images/smiley/smile.png" alt=":)" title=":)" title=":)" class="smiley" />', $texte);
 	$texte = str_replace(':-)', '<img src="../images/smiley/smile.png" alt=":)" title=":)" title=":)" class="smiley" />', $texte);
 	$texte = str_replace(':(', '<img src="../images/smiley/triste.png" alt=":(" title=":(" class="smiley" />', $texte);
@@ -107,9 +107,9 @@ function code($texte)
 	$texte = preg_replace('`\[g\](.+)\[/g\]`isU', '<strong>$1</strong>', $texte); 
 	//italique : i
 	$texte = preg_replace('`\[i\](.+)\[/i\]`isU', '<em>$1</em>', $texte);
-	//souligné : u
+	//soulignï¿½ : u
 	$texte = preg_replace('`\[u\](.+)\[/u\]`isU', '<u>$1</u>', $texte);
-	//barré : s
+	//barrï¿½ : s
 	$texte = preg_replace('`\[s\](.+)\[/s\]`isU', '<strike>$1</strike>', $texte);
 	//grandes lettres : gl
 	$texte = preg_replace('`\[gl\](.+)\[/gl\]`isU', '<big>$1</big>', $texte);
@@ -118,12 +118,12 @@ function code($texte)
 	//taille : size=x
 	$texte = preg_replace('`\[size=(.+)\]`isU', '<span style="font-size: $1px;">', $texte);
 	$texte = str_replace('[/size]', '</span>', $texte);
-	//télétexte : tt
+	//tï¿½lï¿½texte : tt
 	$texte = preg_replace('`\[tt\](.+)\[/tt\]`isU', '<tt>$1</tt>', $texte);
 	// citation
 	$texte = preg_replace('`\[citation=(.+)\](.+)`isU', '<fieldset class="citation"><legend>Citation : $1</legend><tt>$2', $texte);
 	$texte = str_replace('[/citation]', '</tt></fieldset>', $texte);
-	//centré : ct || center
+	//centrï¿½ : ct || center
 	$texte = preg_replace('`\[ct\](.+)\[/ct\]`isU', '<center>$1</center>', $texte);
 	$texte = preg_replace('`\[center\](.+)\[/center\]`isU', '<center>$1</center>', $texte);
 	//couleur  : color=x
@@ -155,9 +155,9 @@ function noSpecialChar($chaine){
  
     //  les accents
     $chaine=trim($chaine);
-    $chaine= strtr($chaine,"ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ","aaaaaaaaaaaaooooooooooooeeeeeeeecciiiiiiiiuuuuuuuuynn");
+    $chaine= strtr($chaine,"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½","aaaaaaaaaaaaooooooooooooeeeeeeeecciiiiiiiiuuuuuuuuynn");
  
-    //  les caracètres spéciaux (aures que lettres et chiffres en fait)
+    //  les caracï¿½tres spï¿½ciaux (aures que lettres et chiffres en fait)
     $chaine = preg_replace('/([^.a-z0-9]+)/i', '_', $chaine);
     $chaine = strtolower($chaine);
  
@@ -167,8 +167,8 @@ function noSpecialChar($chaine){
 /**
  * 
  * formate une chaine avec les premieres lettres de chaque mot en majuscule
- * @param $chaine String, la chaine à modifier
- * @param $delim Char, [optionel] le caractère de délimitation des mots
+ * @param $chaine String, la chaine ï¿½ modifier
+ * @param $delim Char, [optionel] le caractï¿½re de dï¿½limitation des mots
  * @return String, la chaine formatee
  */
 function firstchartoupper($chaine,$delim = ' '){
@@ -188,7 +188,7 @@ function firstchartoupper($chaine,$delim = ' '){
 		$w = ($words[0]);
 		if(strlen($w) > 2 && !in_array($w, $not2upper)) {
 			$char = strtoupper(substr($w, 0, 1));
-			if($char == 'é' || $char == '&eacute;'){
+			if($char == 'ï¿½' || $char == '&eacute;'){
 				$char = '&Eacute;';
 			}
 			return $char.(substr($w, 1));
@@ -227,10 +227,10 @@ function toBytes($str){
     return $val;
 }
 /**
- * Crée une nouvelle image redimentionnée à partir de $urlImage
+ * Crï¿½e une nouvelle image redimentionnï¿½e ï¿½ partir de $urlImage
  * @param String $urlImage adresse locale de l'image d'origine
  * @param integer $resizeSize taille de redimentionnement
- * @param char $resizeType [optional] 'H' ou 'L' définit le type de redimention, c'est a dire si $resizeSize est une hauteur ('H') ou une largeur ('L')
+ * @param char $resizeType [optional] 'H' ou 'L' dï¿½finit le type de redimention, c'est a dire si $resizeSize est une hauteur ('H') ou une largeur ('L')
  * @param String $newUrl [optional] l'adresse + nom de l'image en sortie
  * @return String url de la nouvelle image, par defaut de la forme {basename($urlImage)}.min{resizeType}{resizeSize}.{extention} ou false en cas d'erreur 
  */
@@ -268,6 +268,30 @@ function redimJPEG($urlImage,$resizeSize = 500, $resizeType = 'H', $newUrl = 'de
 	else {
 		return false;
 	}
+}
+
+/**
+ * CrÃ©e une nouvelle image tournÃ©e Ã  partir de $urlImage
+ * @param String $urlImage adresse locale de l'image d'origine
+ * @param integer $degrees degre de rotation
+ * @param String $newUrl [optional] l'adresse + nom de l'image en sortie
+ * @return String url de la nouvelle image, ou false en cas d'erreur 
+ */
+function rotateImage( $urlImage, $degrees, $newUrl = 'default' ) {
+    if($imageOrigine = imagecreatefromjpeg($urlImage) or die('erreur')){
+        $rotate = imagerotate($imageOrigine, $degrees, 0);
+        
+        if( $newUrl == 'default' ){
+            $newUrl = $urlImage;
+        }
+        
+        imagejpeg($rotate , $newUrl, 100);
+        return $newUrl;
+        
+    }
+    else {
+        return false;
+    }
 }
 
 function getImageDate($filename) {
@@ -362,9 +386,9 @@ function remote_file_exists ( $url ) {
 }
 
 /**
- * Retourne le bbcode de la photo passée en paramètre
+ * Retourne le bbcode de la photo passï¿½e en paramï¿½tre
  * @param Bdmap_Photo $photo la photo
- * @param boolean $encapsuleUrl [optional, default true] si à true, le bbcode de la photo est entouré du bbcode du lien de la photo
+ * @param boolean $encapsuleUrl [optional, default true] si ï¿½ true, le bbcode de la photo est entourï¿½ du bbcode du lien de la photo
  */
 function getBBCodeFromOnePhoto(Bdmap_Photo $photo, $encapsuleUrl = true, $resize=false){
 	$bbcode = "";
@@ -386,7 +410,7 @@ function getBBCodeFromOnePhoto(Bdmap_Photo $photo, $encapsuleUrl = true, $resize
 }
 
 /**
- * retourne le BBCode pour un album donné, c'est a dire le bbcode de toutes les photos entouré du lien de la visionneuse d'album
+ * retourne le BBCode pour un album donnï¿½, c'est a dire le bbcode de toutes les photos entourï¿½ du lien de la visionneuse d'album
  * @param Bdmap_Album $album l'album
  */
 function getBBCodeFromOneAlbum(Bdmap_Album $album, $photoEncapsuleUrl = false, $resize=false){
@@ -415,7 +439,7 @@ function __autoload($className){
 		$newClassArray[] = firstchartolower($val);
 		
 	}
-	//pour les fichiers de classes autre que Page qui n'ont pas leur première lettre en minuscule
+	//pour les fichiers de classes autre que Page qui n'ont pas leur premiï¿½re lettre en minuscule
 	if(!$page){
 		$newClassArray[count($newClassArray)-1] = $classArray[count($classArray)-1];
 	}

@@ -227,11 +227,13 @@ ul.album-thumbnails .thumbnail div.seen {
     background-color: rgba(255,255,255,.5);
     padding-left: 4px;
     padding-right: 4px;
+    height: 20px;
     /*box-shadow: 1px 1px 12px rgba(255,255,255,.5);*/
     /*background: radial-gradient(ellipse at center, rgba(255,255,255,.5) 0%,rgba(255,255,255,0) 80%);*/
 }
 
-ul.album-thumbnails .thumbnail div.seen a {
+ul.album-thumbnails .thumbnail div.seen a,
+ul.album-thumbnails .thumbnail div.rotate a{
     color: black;
     text-decoration: none;
 }
@@ -243,6 +245,7 @@ ul.album-thumbnails .thumbnail div.rotate {
     background-color: rgba(255,255,255,.5);
     padding-left: 4px;
     padding-right: 4px;
+    height: 20px;
     cursor: pointer;
 }
 

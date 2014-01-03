@@ -27,8 +27,8 @@ $uniqidAlbum = $this->uniqidAlbum;
                                             <i class="icon-eye-open"></i>&nbsp;<?php echo $photo->getSeen(); ?>
                                         </a>
                                     </div>
-                                    <div class="rotate" rel="tooltip" data-original-title="Pivoter sur la droite">
-                                        <span>&nbsp;<i class="icon-repeat">&nbsp;</i>&nbsp;</span>
+                                    <div class="rotate" rel="tooltip" data-original-title="Pivoter sur la droite.">
+                                        <a href="#">&nbsp;<i class="icon-repeat">&nbsp;</i>&nbsp;</a>
                                     </div>
                                     <img src="<?php echo $photo->getMinUrl("H", 179); ?>" class="span12 listePhoto" private="<?php echo $photo->getUniqid(); ?>" rel="tooltip" data-original-title="Cliquez pour ajouter cette photo au BBCode g&eacute;n&eacute;r&eacute;" />
                                     <span class="span12">
@@ -101,28 +101,34 @@ $uniqidAlbum = $this->uniqidAlbum;
             });
         });
         
-        $('.thumbnail').click(function() {
-            var resizeType = $('.btn-resize-type.active').attr('resize-type');
-            var resizeSize = $('.input-resize-size').val();
-            if ($(this).hasClass('selected')) {
-                $(this).removeClass('selected');
-                $(this).attr("data-original-title", "Cliquez pour ajouter cette photo au BBCode genere");
-                if ($('.selected').length == 0) {
-                    $('#bbcode-container').animate({height: 'toggle', opacity: 'toggle'}, 'slow');
-                }
-                generateBBCode(resizeType, resizeSize);
-            }
-            else {
-                $(this).addClass('selected');
-                $(this).attr("data-original-title", "Cliquez pour enlever cette photo du BBCode genere");
-                if ($('.selected').length == 1) {
-                    $('#bbcode-container').animate({height: 'toggle', opacity: 'toggle'}, 'slow');
-                }
-                generateBBCode(resizeType, resizeSize);
-            }
-            isBBCode = false;
+        $('.thumbnail>img, .thumbnail>span').click(function(){
+            $(this).parent('.thumbnail').click();
         });
-        $('.tooltipFirerer, .btn-resize-type, .input-resize-size-container, .btn-bbcode-album, .thumbnail img, .thumbnail .seen, .thumbnail .rotate').tooltip();
+        
+        $('.thumbnail').click(function(e) {
+            if( e.target === this ) { //this disable catching all click on children
+                var resizeType = $('.btn-resize-type.active').attr('resize-type');
+                var resizeSize = $('.input-resize-size').val();
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                    $(this).attr("data-original-title", "Cliquez pour ajouter cette photo au BBCode genere");
+                    if ($('.selected').length == 0) {
+                        $('#bbcode-container').animate({height: 'toggle', opacity: 'toggle'}, 'slow');
+                    }
+                    generateBBCode(resizeType, resizeSize);
+                }
+                else {
+                    $(this).addClass('selected');
+                    $(this).attr("data-original-title", "Cliquez pour enlever cette photo du BBCode genere");
+                    if ($('.selected').length == 1) {
+                        $('#bbcode-container').animate({height: 'toggle', opacity: 'toggle'}, 'slow');
+                    }
+                    generateBBCode(resizeType, resizeSize);
+                }
+                isBBCode = false;
+            }
+        });
+        $('.tooltipFirerer, .btn-resize-type, .input-resize-size-container, .btn-bbcode-album, .thumbnail img, .thumbnail .seen').tooltip();//, .thumbnail .rotate').tooltip();
 
         $('.btn-resize-type').click(function() {
             var resizeSize = $('.input-resize-size').val();

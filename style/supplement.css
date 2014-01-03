@@ -216,10 +216,12 @@ ul.album-thumbnails .thumbnail img.listePhoto {
 	width: auto;
 }
 
+ul.upload-thumbnails .thumbnail,
 ul.album-thumbnails .thumbnail {
     position: relative;
 }
 
+ul.upload-thumbnails .thumbnail div.seen,
 ul.album-thumbnails .thumbnail div.seen {
     position: absolute;
     top: 4px;
@@ -232,6 +234,7 @@ ul.album-thumbnails .thumbnail div.seen {
     /*background: radial-gradient(ellipse at center, rgba(255,255,255,.5) 0%,rgba(255,255,255,0) 80%);*/
 }
 
+ul.upload-thumbnails .thumbnail div.seen a,
 ul.album-thumbnails .thumbnail div.seen a,
 ul.album-thumbnails .thumbnail div.rotate a{
     color: black;

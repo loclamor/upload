@@ -1,74 +1,76 @@
-<?php 
+<?php
 $user = $this->user;
 $albums = $this->albums;
 ?>
 
 <div class="row-fluid">
-	<div class="span11 englober" >
-	<?php 
-	if($albums){
-		?>
-		<ul class="thumbnails upload-thumbnails">
-		<?php 
-		//on commence par créer par l'image par défaut si elle n'existe pas
-		$path_parts = pathinfo('img/appareil-photo.jpg');
-		$defaultImageMin = $path_parts['dirname'].'/'.$path_parts['filename'].'.minH120.'.$path_parts['extension'];
-		if(!file_exists($defaultImageMin)) {
-			$defaultImageMin = redimJPEG('img/appareil-photo.jpg', 120, 'H');
-		}
-		//ensuite on affiche les albums
-		foreach ($albums as $album){
-			if($album instanceof Bdmap_Album){
-				//recuperer la premiere photo de l'abum courant
-				$photo = Gestionnaire::getGestionnaire('photo')->getOf(array('id_album' => $album->getId()),'id',false,0,1);
-				$photo = $photo[0];
-				if($photo instanceof Bdmap_Photo) {
-					$img = $photo->getMinUrl();
-					if($img === false){
-						$img = $defaultImageMin;
-					}
-				}
-				else {
-					$img = $defaultImageMin;
-				}
-				$urlAlbum = new Url(true);
-				$urlAlbum->addParam('page', 'album');
-				$urlAlbum->addParam('idAlbum', $album->getId());
-				?>
-				<li class="span3">
-					<div class="thumbnail">
-						<a href="<?php echo $urlAlbum->getUrl(); ?>">
-							<img src="<?php echo $img; ?>" class="span12 listeAlbum" />
-							<span class="span12">
-								<?php echo $album->getNom(); ?>
-							</span>
-						</a>
-					</div>
-				</li>
-				<?php 
-			}
-		}
-		?>
-		</ul>
-		<?php 
-		
-		if($this->bbcodeLastAlbum){
-			$bbcode = $this->bbcodeLastAlbum;
-			
-			?>
-			<div class="row-fluid">
-			<span class="span12" >BBCode du dernier album cr&eacute;&eacute; :</span>
-			<textarea rows="10" cols="30" class="span12"><?php echo $bbcode; ?></textarea>
-			</div>
-			<?php 
-		
-		}
-	}
-	else {
-	?>
-	<div class="span12">Vous n'avez pas encore d'album.</div>
-	<?php 
-	}
-	?>
-	</div>
+    <div class="span11 englober" >
+        <?php
+        if ($albums) {
+            ?>
+            <ul class="thumbnails upload-thumbnails">
+                <?php
+                //on commence par crï¿½er par l'image par dï¿½faut si elle n'existe pas
+                $path_parts = pathinfo('img/appareil-photo.jpg');
+                $defaultImageMin = $path_parts['dirname'] . '/' . $path_parts['filename'] . '.minH120.' . $path_parts['extension'];
+                if (!file_exists($defaultImageMin)) {
+                    $defaultImageMin = redimJPEG('img/appareil-photo.jpg', 120, 'H');
+                }
+                //ensuite on affiche les albums
+                foreach ($albums as $album) {
+                    if ($album instanceof Bdmap_Album) {
+                        //recuperer la premiere photo de l'abum courant
+                        $photo = Gestionnaire::getGestionnaire('photo')->getOf(array('id_album' => $album->getId()), 'id', false, 0, 1);
+                        $photo = $photo[0];
+                        if ($photo instanceof Bdmap_Photo) {
+                            $img = $photo->getMinUrl();
+                            if ($img === false) {
+                                $img = $defaultImageMin;
+                            }
+                        } else {
+                            $img = $defaultImageMin;
+                        }
+                        $urlAlbum = new Url(true);
+                        $urlAlbum->addParam('page', 'album');
+                        $urlAlbum->addParam('idAlbum', $album->getId());
+                        
+                        $urlCaroussel = "./view/" . $album->getUniqid() . ".html";
+                        ?>
+                        <li class="span3">
+                            <div class="thumbnail">
+                                <div class="seen" rel="tooltip" data-original-title="Nombre d'affichages de cet album. Cliquez pour la visualier.">
+                                    <a href="<?php echo $urlCaroussel; ?>"target="_blanck">
+                                        <i class="icon-eye-open"></i>&nbsp;<?php echo $album->getSeen(); ?>
+                                    </a>
+                                </div>
+                                <a href="<?php echo $urlAlbum->getUrl(); ?>">
+                                    <img src="<?php echo $img; ?>" class="span12 listeAlbum" />
+                                    <span class="span12">
+                                        <?php echo $album->getNom(); ?>
+                                    </span>
+                                </a>
+                            </div>
+                        </li>
+                        <?php
+                    }
+                }
+                ?>
+            </ul>
+            <?php
+            if ($this->bbcodeLastAlbum) {
+                $bbcode = $this->bbcodeLastAlbum;
+                ?>
+                <div class="row-fluid">
+                    <span class="span12" >BBCode du dernier album cr&eacute;&eacute; :</span>
+                    <textarea rows="10" cols="30" class="span12"><?php echo $bbcode; ?></textarea>
+                </div>
+        <?php
+    }
+} else {
+    ?>
+            <div class="span12">Vous n'avez pas encore d'album.</div>
+            <?php
+        }
+        ?>
+    </div>
 </div>

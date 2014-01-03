@@ -91,13 +91,17 @@ $uniqidAlbum = $this->uniqidAlbum;
         $('.rotate').click( function() {
             var $thumb = $(this).parent('.thumbnail');
             var id = $thumb.attr('idPhoto');
+            var $img = $thumb.find("img");
+            $img.addClass('longAnimate');
+            $img.addClass('rotateRight');
             var url = "./ajax.php?page=traitementRotatePhoto&rotate=-90&imageId=" + id;
             $.getJSON(url, function( data ) {
                 if( data.state == 'success' ) {
-                    var $img = $thumb.find("img");
                     $img.attr('src',data.newMinUrl + '?rld=' + Math.random() ); //add a fake param to force refresh
                     //$img.attr('private',data.newMinPrivateUrl);
                 }
+                $img.removeClass('longAnimate');
+                $img.removeClass('rotateRight');
             });
         });
         

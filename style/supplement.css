@@ -202,18 +202,32 @@ ul.album-thumbnails  > [class*="span"]{
 }
 
 ul.album-thumbnails .thumbnail span {
-	text-align: center;
-	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+    text-align: center;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-weight: bold;
     font-size: 14px;
     margin-top: 5px;
 }
 
+.longAnimate {
+    -moz-transition: all 2s ease;
+    -webkit-transition: all 2s ease;
+    -o-transition: all 2s ease;
+    transition: all 2s ease;
+}
+
+.rotateRight {
+    -moz-transform: scale(0.75) rotate(90deg);
+    -webkit-transform: scale(0.75) rotate(90deg);
+    -o-transform: scale(0.75) rotate(90deg);
+    transform: scale(0.75) rotate(90deg);
+}
+
 ul.album-thumbnails .thumbnail img.listePhoto {
 	float: none;
 	margin: auto;
-	width: auto;
+	width: auto;   
 }
 
 ul.upload-thumbnails .thumbnail,

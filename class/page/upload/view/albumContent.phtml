@@ -30,7 +30,7 @@ $uniqidAlbum = $this->uniqidAlbum;
                                     <div class="rotate" rel="tooltip" data-original-title="Pivoter sur la droite.">
                                         <a href="#">&nbsp;<i class="icon-repeat">&nbsp;</i>&nbsp;</a>
                                     </div>
-                                    <img src="<?php echo $photo->getMinUrl("H", 179); ?>" class="span12 listePhoto" private="<?php echo $photo->getUniqid(); ?>" rel="tooltip" data-original-title="Cliquez pour ajouter cette photo au BBCode g&eacute;n&eacute;r&eacute;" />
+                                    <img src="<?php echo $photo->getMinUrl("H", 179).'?rld='.rand(0,999999999); ?>" class="span12 listePhoto" private="<?php echo $photo->getUniqid(); ?>" rel="tooltip" data-original-title="Cliquez pour ajouter cette photo au BBCode g&eacute;n&eacute;r&eacute;" />
                                     <span class="span12">
             <?php echo $photo->getLegende(); ?>
                                     </span>

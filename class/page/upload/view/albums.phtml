@@ -44,7 +44,7 @@ $albums = $this->albums;
                                     </a>
                                 </div>
                                 <a href="<?php echo $urlAlbum->getUrl(); ?>">
-                                    <img src="<?php echo $img; ?>" class="span12 listeAlbum" />
+                                    <img src="<?php echo $img.'?rld='.rand(0,999999999); ?>" class="span12 listeAlbum" />
                                     <span class="span12">
                                         <?php echo $album->getNom(); ?>
                                     </span>

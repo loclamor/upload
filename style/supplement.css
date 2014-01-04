@@ -222,6 +222,7 @@ ul.album-thumbnails .thumbnail span {
     -webkit-transform: scale(0.75) rotate(90deg);
     -o-transform: scale(0.75) rotate(90deg);
     transform: scale(0.75) rotate(90deg);
+    opacity: 0;
 }
 
 ul.album-thumbnails .thumbnail img.listePhoto {

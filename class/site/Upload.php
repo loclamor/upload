@@ -10,12 +10,12 @@ class Site_Upload extends Site {
 				
 		$this->addElement('title', SITE_NAME);
 		
-		//on crée les éléments généraux du footer
+		//on crï¿½e les ï¿½lï¿½ments gï¿½nï¿½raux du footer
 		$this->addFoot('<span id="foot_version">MondoPhoto Upload Service v'.VERSION.'</span>');
 		$this->addFoot('<span class="separator"> - </span>');
 		$this->addFoot('<span id="foot_copyright">&copy; 2012 loclamor</span>');
 		
-		//on vérifie que on a bien une page de demandée
+		//on vï¿½rifie que on a bien une page de demandï¿½e
 		if(isset($_GET['page']) and !empty($_GET['page'])){
 			$this->page = $_GET['page'];
 		}
@@ -33,7 +33,7 @@ class Site_Upload extends Site {
 		if(!isset($_SESSION['upload']['isConnect'])){
 			$_SESSION['upload']['isConnect'] = null;
 		}
-		//on vérifie la connexion
+		//on vï¿½rifie la connexion
 		if(!isset($_SESSION['upload']['isConnect']) and $_SESSION['upload']['isConnect'] != 'true'){
 			if(isset($_POST['pwd']) and !empty($_POST['pwd']) and isset($_POST['pseudo']) and !empty($_POST['pseudo'])) {
 				$this->page = 'traitementConnexion';
@@ -44,12 +44,12 @@ class Site_Upload extends Site {
 			}
 		}
 		else {
-			//ici on est connecté
+			//ici on est connectï¿½
 			
 			$this->user = new Bdmap_Utilisateur($_SESSION['upload']['id']);
-			//TODO vérifier si l'user existe bien
+			//TODO vï¿½rifier si l'user existe bien
 			
-			// on défini une variable de connexion :
+			// on dï¿½fini une variable de connexion :
 			$this->user_connected = true;
 			
 			$this->log->setBaseString('Upload : '.$this->user->getPseudo().' :');
@@ -63,7 +63,7 @@ class Site_Upload extends Site {
 			$url->addParam('page', 'deconnexion');
 			$this->addMenu('<li id="onglet_deconnection" ><a class="" href="'.$url->getUrl().'"><i class="icon-off"></i> Se deconnecter</a></li>', 'onglets');
 			
-			//quand on est connecté il faut aussi construire l'interface d'onglets
+			//quand on est connectï¿½ il faut aussi construire l'interface d'onglets
 			//donc 1 page de contenu = 1 onglet
 
 			$this->addContent('<ul class="nav nav-tabs" id="main-tab-nav"></ul>','main-tab','div',array('class'=>'tabbable tabs-left'));
@@ -103,10 +103,13 @@ class Site_Upload extends Site {
 			case 'album' :
 				$this->getAlbumContent($_GET['idAlbum']);
 				break;
+                        case 'fusion':
+				$this->doMerge($_POST['source'], $_POST['dest']);
+				break;
 			case 'albums' :
 			case 'accueil' :
 			default:
-				//par défaut, on affiche l'accueil
+				//par dï¿½faut, on affiche l'accueil
 				$this->getAlbums();
 		}
 	
@@ -118,7 +121,7 @@ class Site_Upload extends Site {
 
 		
 		/*
-		 * On gère ici les notifictions
+		 * On gï¿½re ici les notifictions
 		 */
 		if(SQL::getInstance()->getNbErrors() > 0){
 			$this->addContent('<script>$(document).ready(function(){ notify("'.SQL::getInstance()->getNbErrors().' erreurs SQL.<br/>Consultez le repertoire de logs SQL.", 3000); });</script>');
@@ -168,7 +171,7 @@ class Site_Upload extends Site {
 		$urlAction->addParam('page', 'accueil');
 		$urlAction->addParam('notify', 'Vous avez ete deconecte');
 		redirect($urlAction->getUrl());
-		echo 'Vous avez été déconnecté.<br/><a href="'.$urlAction->getUrl().'">retour accueil</a>';
+		echo 'Vous avez ï¿½tï¿½ dï¿½connectï¿½.<br/><a href="'.$urlAction->getUrl().'">retour accueil</a>';
 	}
 	
 	
@@ -201,6 +204,13 @@ class Site_Upload extends Site {
 		$this->addPage(new Page_Upload_DoCreateAlbum(),'main-tab-content');
 		
 		$this->log->log('infos', 'infos_general', 'process creation album', Logger::GRAN_MONTH);
+	}
+        
+        public function doMerge($source, $dest) {
+		$this->addPage(new Page_Upload_DoMerge(array('source'=>$source, 'dest'=>$dest)));
+		
+		$this->log->log('infos', 'infos_merge', 'demande de merge de '.$source.' dans '.$dest, Logger::GRAN_MONTH);
+		
 	}
 	
 	public function getAlbumContent($idAlbum) {

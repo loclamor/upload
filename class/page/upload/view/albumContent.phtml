@@ -2,12 +2,14 @@
 $photos = $this->photos;
 $albumName = $this->nom;
 $uniqidAlbum = $this->uniqidAlbum;
+$albumId = $this->albumId;
 ?>
 <div class="row-fluid">
     <div class="span11">
         <div class="row-fluid">
             <h2 class="span12 album-name">
                 <?php echo $albumName; ?>
+                <a href="#myModal" role="button" class="btn btn-merge" rel="tooltip" data-original-title="Fusionner vers..." data-toggle="modal" ><i class="icon-share"></i></a>
                 <button type="button" class="btn btn-bbcode-album pull-right" rel="tooltip" data-original-title="G&eacute;n&eacute;rer le BBCode de l'album avec la visionneuse" >BBCode Album</button>
                 <button type="button" class="btn btn-unselect-all pull-right tooltipFirerer" rel="tooltip" data-original-title="D&eacute;s&eacute;lectionner tout" >D&eacute;s&eacute;lectionner tout</button>
                 <button type="button" class="btn btn-select-all pull-right tooltipFirerer" rel="tooltip" data-original-title="S&eacute;lectionner tout" >S&eacute;lectionner tout</button>
@@ -30,20 +32,20 @@ $uniqidAlbum = $this->uniqidAlbum;
                                     <div class="rotate" rel="tooltip" data-original-title="Pivoter sur la droite.">
                                         <a href="#">&nbsp;<i class="icon-repeat">&nbsp;</i>&nbsp;</a>
                                     </div>
-                                    <img src="<?php echo $photo->getMinUrl("H", 179).'?rld='.rand(0,999999999); ?>" class="span12 listePhoto" private="<?php echo $photo->getUniqid(); ?>" rel="tooltip" data-original-title="Cliquez pour ajouter cette photo au BBCode g&eacute;n&eacute;r&eacute;" />
+                                    <img src="<?php echo $photo->getMinUrl("H", 179) . '?rld=' . rand(0, 999999999); ?>" class="span12 listePhoto" private="<?php echo $photo->getUniqid(); ?>" rel="tooltip" data-original-title="Cliquez pour ajouter cette photo au BBCode g&eacute;n&eacute;r&eacute;" />
                                     <span class="span12">
-            <?php echo $photo->getLegende(); ?>
+                                        <?php echo $photo->getLegende(); ?>
                                     </span>
 
                                 </div>
                             </li>
-            <?php
-        }
-    }
-} else {
-    echo "pas de photos dans cet album.";
-}
-?>
+                            <?php
+                        }
+                    }
+                } else {
+                    echo "pas de photos dans cet album.";
+                }
+                ?>
             </ul>
 
             <div class="row-fluid" id="bbcode-container">
@@ -66,51 +68,81 @@ $uniqidAlbum = $this->uniqidAlbum;
         </div>
     </div>
 </div>
+<!-- Modal -->
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Fusionner l'abum vers...</h3>
+    </div>
+    <div class="modal-body">
+        <form method="POST" action="<?php echo $this->urlFusion->getUrl(); ?>" id="fusionForm" >
+            <select name="dest">
+                <?php
+                foreach ($this->others as $a) {
+                    if ($a instanceof Bdmap_Album) {
+                        echo '<option value="' . $a->getId() . '">' . $a->getNom() . '</option>';
+                    }
+                }
+                ?>
+            </select>
+            <input type="hidden" name="source" value="<?php echo $albumId; ?>" />
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>
+        <button class="btn btn-primary" data-loading-text="Fusion..." id="btn-fusion">Fusionner</button>
+    </div>
+</div>
 <script>
     var isBBCode = false;
     $(document).ready(function() {
-        
-        $('.btn-select-all').click(function(){
-            $('.thumbnail').each(function(){
-                if ( !$(this).hasClass('selected') ) {
+
+        $("#btn-fusion").click(function() {
+            $(this).button('loading');
+            $("#fusionForm").submit();
+        })
+
+        $('.btn-select-all').click(function() {
+            $('.thumbnail').each(function() {
+                if (!$(this).hasClass('selected')) {
                     $(this).click();
                 }
             });
             isBBCode = false;
         });
-        
-        $('.btn-unselect-all').click(function(){
-            $('.thumbnail').each(function(){
-                if ( $(this).hasClass('selected') ) {
+
+        $('.btn-unselect-all').click(function() {
+            $('.thumbnail').each(function() {
+                if ($(this).hasClass('selected')) {
                     $(this).click();
                 }
             });
             isBBCode = false;
         });
-        
-        $('.rotate').click( function() {
+
+        $('.rotate').click(function() {
             var $thumb = $(this).parent('.thumbnail');
             var id = $thumb.attr('idPhoto');
             var $img = $thumb.find("img");
             $img.addClass('longAnimate');
             $img.addClass('rotateRight');
             var url = "./ajax.php?page=traitementRotatePhoto&rotate=-90&imageId=" + id;
-            $.getJSON(url, function( data ) {
-                if( data.state == 'success' ) {
-                    $img.attr('src',data.newMinUrl + '?rld=' + Math.random() ); //add a fake param to force refresh
+            $.getJSON(url, function(data) {
+                if (data.state == 'success') {
+                    $img.attr('src', data.newMinUrl + '?rld=' + Math.random()); //add a fake param to force refresh
                     //$img.attr('private',data.newMinPrivateUrl);
                 }
                 $img.removeClass('longAnimate');
                 $img.removeClass('rotateRight');
             });
         });
-        
-        $('.thumbnail>img, .thumbnail>span').click(function(){
+
+        $('.thumbnail>img, .thumbnail>span').click(function() {
             $(this).parent('.thumbnail').click();
         });
-        
+
         $('.thumbnail').click(function(e) {
-            if( e.target === this ) { //this disable catching all click on children
+            if (e.target === this) { //this disable catching all click on children
                 var resizeType = $('.btn-resize-type.active').attr('resize-type');
                 var resizeSize = $('.input-resize-size').val();
                 if ($(this).hasClass('selected')) {
@@ -132,12 +164,12 @@ $uniqidAlbum = $this->uniqidAlbum;
                 isBBCode = false;
             }
         });
-        $('.tooltipFirerer, .btn-resize-type, .input-resize-size-container, .btn-bbcode-album, .thumbnail img, .thumbnail .seen').tooltip();//, .thumbnail .rotate').tooltip();
+        $('.tooltipFirerer, .btn-resize-type, .input-resize-size-container, .btn-bbcode-album, .btn-merge, .thumbnail img, .thumbnail .seen').tooltip();//, .thumbnail .rotate').tooltip();
 
         $('.btn-resize-type').click(function() {
             var resizeSize = $('.input-resize-size').val();
-            if( isBBCode ) {
-                setBBCodeAlbum( $(this).attr('resize-type'), resizeSize );
+            if (isBBCode) {
+                setBBCodeAlbum($(this).attr('resize-type'), resizeSize);
             }
             else {
                 generateBBCode($(this).attr('resize-type'), resizeSize);
@@ -146,8 +178,8 @@ $uniqidAlbum = $this->uniqidAlbum;
 
         $('.input-resize-size').change(function() {
             var resizeType = $('.btn-resize-type.active').attr('resize-type');
-            if( isBBCode ) {
-                setBBCodeAlbum( resizeType, $(this).val() );
+            if (isBBCode) {
+                setBBCodeAlbum(resizeType, $(this).val());
             }
             else {
                 generateBBCode(resizeType, $(this).val());
@@ -156,8 +188,8 @@ $uniqidAlbum = $this->uniqidAlbum;
 
         $('.input-resize-size').keyup(function() {
             var resizeType = $('.btn-resize-type.active').attr('resize-type');
-            if( isBBCode ) {
-                setBBCodeAlbum( resizeType, $(this).val() );
+            if (isBBCode) {
+                setBBCodeAlbum(resizeType, $(this).val());
             }
             else {
                 generateBBCode(resizeType, $(this).val());
@@ -171,13 +203,13 @@ $uniqidAlbum = $this->uniqidAlbum;
                 $(this).addClass('selected');
             });
 
-            setBBCodeAlbum( resizeType, resizeSize );
+            setBBCodeAlbum(resizeType, resizeSize);
 
             $('#bbcode-container').slideDown('slow').fadeIn('slow');
             isBBCode = true;
         });
-        
-        function setBBCodeAlbum( resizeType, resizeSize ) {
+
+        function setBBCodeAlbum(resizeType, resizeSize) {
             generateBBCodeWithOutUrl(resizeType, resizeSize);
 
             var bbcodeUrl = '[url=' + HOST_OF_SITE + 'view/' + '<?php echo $uniqidAlbum; ?>' + '.html]';

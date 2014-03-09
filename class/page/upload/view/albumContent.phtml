@@ -3,6 +3,11 @@ $photos = $this->photos;
 $albumName = $this->nom;
 $uniqidAlbum = $this->uniqidAlbum;
 $albumId = $this->albumId;
+
+$urlAdd = new Url( true );
+$urlAdd->addParam('page', 'create');
+$urlAdd->addParam('idAlbum', $albumId);
+
 ?>
 <div class="row-fluid">
     <div class="span11">
@@ -10,6 +15,7 @@ $albumId = $this->albumId;
             <h2 class="span12 album-name">
                 <?php echo $albumName; ?>
                 <a href="#myModal" role="button" class="btn btn-merge" rel="tooltip" data-original-title="Fusionner vers..." data-toggle="modal" ><i class="icon-share"></i></a>
+                <a href="<?php echo $urlAdd->getUrl(); ?>" role="button" class="btn btn-merge" rel="tooltip" data-original-title="Ajouter des photos" ><i class="icon-add"></i></a>
                 <button type="button" class="btn btn-bbcode-album pull-right" rel="tooltip" data-original-title="G&eacute;n&eacute;rer le BBCode de l'album avec la visionneuse" >BBCode Album</button>
                 <button type="button" class="btn btn-unselect-all pull-right tooltipFirerer" rel="tooltip" data-original-title="D&eacute;s&eacute;lectionner tout" >D&eacute;s&eacute;lectionner tout</button>
                 <button type="button" class="btn btn-select-all pull-right tooltipFirerer" rel="tooltip" data-original-title="S&eacute;lectionner tout" >S&eacute;lectionner tout</button>

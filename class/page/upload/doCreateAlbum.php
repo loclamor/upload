@@ -13,7 +13,11 @@ class Page_Upload_DoCreateAlbum extends Page {
 				$album->setNom($_POST['title']);
 				$album->setTemp(false);
 				$album->enregistrer(array('nom','is_temp'));
+                                $urlAction->addParam('notify', 'Album cree');
 			}
+                        else {
+                            $urlAction->addParam('notify', 'Album mis a jour');
+                        }
 			
 			if(is_array($_POST['up_legende'])){
 				foreach($_POST['up_legende'] as $idPhoto => $legende){
@@ -31,7 +35,7 @@ class Page_Upload_DoCreateAlbum extends Page {
 		}
 		
 		
-		$urlAction->addParam('notify', 'Album cree');
+		
 		redirect($urlAction->getUrl());
 		echo 'Vos photos ont &eacute;t&eacute; envoy&eacute;s.<br/><a href="'.$urlAction->getUrl().'">retour accueil</a>';
 	}

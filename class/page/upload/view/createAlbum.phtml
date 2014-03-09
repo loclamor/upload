@@ -4,7 +4,11 @@ $album instanceof Bdmap_Album;
 ?>
 <form id="newAlbumForm" action="<?php echo $this->urlAction->getUrl(); ?>" method="POST" class="form-horizontal well span11 " >
     <fieldset>
+        <?php if($album->isTemp() ){ ?>
         <legend>Nouvel album : <input type="text" name="title" id="title" class="span9" value="<?php echo $album->getNom(); ?>" /></legend>
+        <?php } else { ?>
+        <legend>Ajout de photos : <?php $album->getNom() ?></legend>
+        <?php } ?>
         <div class="row-fluid">
             <ul class="thumbnails upload-thumbnails">
 

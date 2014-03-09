@@ -9,6 +9,34 @@ $urlAdd->addParam('page', 'create');
 $urlAdd->addParam('idAlbum', $albumId);
 
 ?>
+<style>
+    
+    /* empêche la sélection */
+    [draggable] {
+        -moz-user-select: none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+    
+    li.draghover { 
+        border: 4px dashed #3D3D3D;
+        height: 216px;
+        border-radius: 5px 5px 5px 5px;
+    }
+    
+/*    li.draghover:before {
+        content: "";
+        display: block;
+        position: relative;
+        top: -220px;
+        left: -249px;
+        width: 249px;
+        height: 220px;
+        border: 4px dashed #3D3D3D;
+    }*/
+    
+</style>
 <div class="row-fluid">
     <div class="span11">
         <div class="row-fluid">
@@ -28,7 +56,7 @@ $urlAdd->addParam('idAlbum', $albumId);
                             $urlPhoto = $photo->getPrivateUrl();
 //                            $urlPhoto = HOST_OF_SITE.'photo/'.$photo->getUniqid()+'.jpg';
                             ?>
-                            <li class="span4">
+                            <li class="span4 element" draggable="true" >
                                 <div class="thumbnail" idPhoto="<?php echo $photo->getId(); ?>" >
                                     <div class="seen" rel="tooltip" data-original-title="Nombre d'affichages de cette photo. Cliquez pour la visualier.">
                                         <a href="<?php echo $urlPhoto; ?>"target="_blanck">
@@ -100,6 +128,7 @@ $urlAdd->addParam('idAlbum', $albumId);
     </div>
 </div>
 <script>
+    $.event.props.push('dataTransfer');
     var isBBCode = false;
     $(document).ready(function() {
 
@@ -223,6 +252,91 @@ $urlAdd->addParam('idAlbum', $albumId);
             $('#bbcode-area').prepend(bbcodeUrl + '\n');
             $('#bbcode-area').append('[/url]\n');
         }
-    });
+        
+        // ajoute la propriété pour le drop et le transfert de données
 
+ 
+    var i, $this, $log = $('#log');
+ 
+    $('li').on({
+        // on commence le drag
+        dragstart: dragstartfct,
+        // on passe sur un élément draggable
+        dragenter: dragenterfct,
+        // on quitte un élément draggable
+        dragleave: dragleavefct,
+        // déclenché tant qu on a pas lâché l élément
+        dragover: dragoverfct,
+        // on lâche l élément
+        drop: dropfct,
+        // fin du drag (même sans drop)
+        dragend: dragendfct
+    });
+        
+    });
+function dragstartfct(e) {
+            console.log("dragstart");
+//            $this = $(this);
+//            i = $(this).index();
+              $(this).css('opacity', '0.5');
+// 
+//            // on garde le texte en mémoire (A, B, C ou D)
+//            e.dataTransfer.setData('text/html', $(this).text());
+        }
+function dragenterfct(e) {
+            
+            if( $(this).hasClass("currentHover") ) {
+                $('.draghover').remove();
+            }
+            if( $(this).hasClass("element") && !$(this).hasClass("currentHover") ) {
+                $('.currentHover').removeClass('currentHover');
+                $('.draghover').remove();
+                console.log('dragenter element');
+                $(this).addClass('currentHover')
+                $(this).before( "<li class='span4 draghover' draggable='true'></li>");
+            }
+            
+            // on augmente la taille pour montrer le draggable
+//            $(this).animate({
+//                width: '90px'
+//            }, 'fast');
+// 
+            e.preventDefault();
+        }
+
+function dragleavefct() {
+
+            // on remet la taille par défaut
+//            $(this).animate({
+//                width: '75px'
+//            }, 'fast');
+        }
+function dragoverfct(e) {
+            
+            e.preventDefault();
+        }
+function dropfct(e) {
+//            // si l élément sur lequel on drop n'est pas l'élément de départ
+//            if (i !== $(this).index()) {
+//                // on récupère le texte initial
+//                var data = e.dataTransfer.getData('text/html');
+// 
+//                // on log
+//                $log.html(data + ' > ' + $(this).text()).fadeIn('slow').delay(1000).fadeOut();
+// 
+//                // on met le nouveau texte à la place de l ancien et inversement
+//                $this.text($(this).text());
+//                $(this).text(data);
+//            }
+// 
+//            // on remet la taille par défaut
+//            $(this).animate({
+//                width: '75px'
+//            }, 'fast');
+e.preventDefault();
+        }
+function dragendfct() {
+            $(this).css('opacity', '1');
+            $('.draghover').remove();
+        }
 </script>

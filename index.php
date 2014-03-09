@@ -4,8 +4,7 @@ require_once 'conf/init.php';
 $site = new Site_Upload();
 ?>
 
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -52,7 +51,7 @@ $site = new Site_Upload();
 			</div>
 		</nav>
 		<div class="row-fluid filariane">
-			<div id="filariane" class="span12">Vous êtes ici : <?php echo $site->getFilAriane();?></div>
+			<div id="filariane" class="span12">Vous ï¿½tes ici : <?php echo $site->getFilAriane();?></div>
 		</div>
 		<div id="content" class="row-fluid">
 			<div class="span12 content-container">

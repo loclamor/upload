@@ -12,6 +12,10 @@ if(isset($_GET['page'])){
 			require_once 'ajaxFiles/rotateImage.php';
 			break;
 		
+                case 'traitementReorderPhoto':
+			require_once 'ajaxFiles/reorder.php';
+			break;
+		
 		default :
 			echo '{success: false}';
 	}

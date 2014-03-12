@@ -14,7 +14,23 @@ class Page_Upload_AlbumContent extends Page {
             $this->urlFusion->addParam('page', 'fusion');
             $this->urlFusion->addParam('noDisplay', 'true'); 
 
-            $this->photos = Gestionnaire::getGestionnaire('photo')->getOf(array('id_album' => $album->getId()));
+            $this->photos = Gestionnaire::getGestionnaire('photo')->getOf(array('id_album' => $album->getId()), 'ordering, id');
+            
+            /*
+             * this should happend only on database migration from 0.1.1 to 0.1.2
+             */
+            if( $this->photos[0]->ordering == null ) {
+                $index = 0;
+                foreach ( $this->photos as $photo ) {
+                    if( $photo instanceof Bdmap_Photo ) {
+                        $photo->ordering = $index;
+                        $photo->enregistrer( array('ordering') );
+                        $index++;
+                    }
+                }
+                
+                $this->photos = Gestionnaire::getGestionnaire('photo')->getOf(array('id_album' => $album->getId()), 'ordering, id');
+            }
 
             $this->others = array();
             $albums = Gestionnaire::getGestionnaire('album')->getOf(array('id_utilisateur' => $_SESSION['upload']['id'], 'is_temp' => 0));

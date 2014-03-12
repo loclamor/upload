@@ -10,6 +10,7 @@ class Bdmap_Photo extends Entite {
 	public $date_upload = null; //AAAA-MM-JJ HH:mm:ss
 	public $privacy = "BY_LINK_ONLY";
         public $seen = 0;
+        public $ordering;
 	
 	public $DB_table = 'photo';
 	public $DB_equiv = array(
@@ -20,7 +21,8 @@ class Bdmap_Photo extends Entite {
 		'url' => 'url',
 		'date_upload' => 'date_upload',
 		'privacy' => 'privacy',
-                'seen' => 'seen'
+                'seen' => 'seen',
+                'ordering' => 'ordering'
 	);
 	
 	public function getId() {
@@ -73,6 +75,12 @@ class Bdmap_Photo extends Entite {
 	public function getSeen() {
 		return $this->seen;
 	}
+        
+	public function getOrdering() {
+		return $this->ordering;
+	}
+        
+        // setters
 
 	public function setId($id) {
 		$this->id = $id;
@@ -105,5 +113,9 @@ class Bdmap_Photo extends Entite {
 	public function setSeen($seen) {
 		$this->seen = $seen;
 	}
+        
+        public function setOrdering($ordering) {
+            $this->ordering = $ordering;
+        }
 	
 }

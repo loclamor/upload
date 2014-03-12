@@ -61,5 +61,15 @@ if( $res === false ) {
     echo mysql_error( );
 }
 
+/**
+ * v0.1.2 order propety
+ */
+$requete = "ALTER TABLE  `".TABLE_PREFIX."photo` 
+    ADD  `ordering` int(11) DEFAULT NULL";
+$res = mysql_query($requete);
+if( $res === false ) {
+    echo mysql_error( );
+}
+
 //on se d�connecte
 mysql_close();

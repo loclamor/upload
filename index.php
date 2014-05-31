@@ -23,7 +23,7 @@ $site = new Site_Upload();
 		<script src="js/functions.js" type="text/javascript" language="javascript" ></script>
 		<script src="js/bootstrap.min.js" type="text/javascript" language="javascript" ></script>
 		<script src="js/fileuploader.js" type="text/javascript" language="javascript" ></script>
-		
+                
 		<?php if(APPLICATION_ENV == 'prod') {?>
 		<script type="text/javascript">
 		  var _gaq = _gaq || [];
@@ -65,6 +65,12 @@ $site = new Site_Upload();
 			<div class="span12 footer"><?php echo $site->getFoot();?></div>
 		</div>
 		<div id="notification-box"></div>
+                
+                <script type="text/javascript" language="javascript">
+                    if( $(window).width() < 800 ) {
+                        $("body").addClass("mobile");
+                    }
+                </script>
 	</body>
 </html>
 <?php 

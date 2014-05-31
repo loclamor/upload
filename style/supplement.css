@@ -1,20 +1,15 @@
 @CHARSET "ISO-8859-1";
 
 
-@media (min-width: 1000px) {
-    body {
-        margin: auto;
+body {
+    margin: auto;
 
-        width: 1000px;
-        box-shadow: 0px 0px 20px #5E5E5E;
-        border-left: 1px solid #d4d4d4;
-        border-right: 1px solid #d4d4d4;
-        border-radius: 6px 6px 6px 6px;
-        margin-bottom: 10px;
-    }
-
-
-
+    width: 1000px;
+    box-shadow: 0px 0px 20px #5E5E5E;
+    border-left: 1px solid #d4d4d4;
+    border-right: 1px solid #d4d4d4;
+    border-radius: 6px 6px 6px 6px;
+    margin-bottom: 10px;
 }
 
 .filariane {
@@ -311,19 +306,20 @@ div.carousel-inner div.item {
     /*    padding: 10px !important;*/
 }
 
-@media (max-width: 899px) {
+/******************\
+* MOBILE SPECIFICS *
+\******************/
     
-    h2.album-name .btn-bbcode-album,
-    h2.album-name .btn-select-all,
-    h2.album-name .btn-unselect-all {
-        display: none;
-    }
-    
-    ul.album-thumbnails li.element .thumbnail .seen,
-    ul.album-thumbnails li.element .thumbnail .seen a{
-        background-color: transparent;
-        width: 100%;
-        height: 100%;
-        display: block;
-    }
+body.mobile h2.album-name .btn-bbcode-album,
+body.mobile h2.album-name .btn-select-all,
+body.mobile h2.album-name .btn-unselect-all {
+    display: none;
+}
+
+body.mobile ul.album-thumbnails li.element .thumbnail .seen,
+body.mobile ul.album-thumbnails li.element .thumbnail .seen a{
+    background-color: transparent;
+    width: 100%;
+    height: 100%;
+    display: block;
 }

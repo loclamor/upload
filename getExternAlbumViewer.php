@@ -78,6 +78,11 @@ $albumName = $album->getNom();
                         <img src="<?php echo $privateUrl; ?>" alt="">
                         <div class="carousel-caption">
                             <h4><?php echo $captionTitle; ?></h4>
+                            &nbsp;Autres tailles : <a href="<?php echo $p->getPrivateUrl(); ?>" >origine</a>
+                             - <a href="<?php echo $p->getMinPrivateUrl("L", 1000); ?>" >1000px</a>
+                             - <a href="<?php echo $p->getMinPrivateUrl("L", 800); ?>" >800px</a>
+                             - <a href="<?php echo $p->getMinPrivateUrl("L", 500); ?>" >500px</a>
+                             - <a href="<?php echo $p->getMinPrivateUrl("L", 300); ?>" >300px</a>
                         </div>
                     </div>
                 <?php

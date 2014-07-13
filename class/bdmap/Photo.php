@@ -45,6 +45,13 @@ class Bdmap_Photo extends Entite {
 		return $this->url;
 	}
 	
+        /**
+         * 
+         * @param String $minType (H/L)
+         * @param int $minSize
+         * @param bool $generate create min file now
+         * @return String the new url
+         */
 	public function getMinUrl($minType = 'H', $minSize = 120, $generate = true){
 		$path_parts = pathinfo($this->getUrl());
 		$minUrl = $path_parts['dirname'].'/'.$path_parts['filename'].'.min'.$minType.$minSize.'.'.$path_parts['extension'];
@@ -60,6 +67,13 @@ class Bdmap_Photo extends Entite {
 		return "./photo/".$this->getUniqid().".jpg";
 	}
 	
+        /**
+         * Get the min private url.
+         * Does not compute resize.
+         * @param String $minType (H/L)
+         * @param int $minSize
+         * @return String the private min url
+         */
 	public function getMinPrivateUrl($minType = 'L', $minSize = 800) {
 		return "./photo/".$this->getUniqid().".min".$minType.$minSize.".jpg";
 	}

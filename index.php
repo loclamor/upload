@@ -67,7 +67,7 @@ $site = new Site_Upload();
 		<div id="notification-box"></div>
                 
                 <script type="text/javascript" language="javascript">
-                    if( $(window).width() < 800 ) {
+                    if( screen.width < 800 ) {
                         $("body").addClass("mobile");
                     }
                 </script>

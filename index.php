@@ -9,7 +9,7 @@ $site = new Site_Upload();
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 		<title><?php echo $site->getTitle();?></title>
-		<link type="image/x-icon" href="style/favicon.ico" rel="shortcut icon"/>
+		<link type="image/x-icon" href="img/upload-ico-32x32.png" rel="shortcut icon"/>
 
 		<link rel="stylesheet" media="screen" type="text/css" title="style" href="css/bootstrap.min.css" />
 		<link rel="stylesheet" media="screen" type="text/css" title="style" href="style/supplement.css" />

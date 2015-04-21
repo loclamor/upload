@@ -26,7 +26,7 @@ class Site_Upload extends Site {
 		$url = new Url();
 		$url->addParam('page', 'accueil');
 		
-		$this->addMenu('<li id="onglet_1"><a class="brand" href="'.$url->getUrl().'">MondoPhoto Upload Service</a></li>','onglets', "ul", array("class"=>"nav"));
+		$this->addMenu('<li id="onglet_1"><a class="brand" href="'.$url->getUrl().'"><img src="img/upload-ico.png" alt=""/>&nbsp;MondoPhoto Upload Service</a></li>','onglets', "ul", array("class"=>"nav"));
 		
 
 		$this->user_connected = false;

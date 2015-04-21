@@ -29,23 +29,33 @@ class Url {
 	public function getUrl() {
 		$url = array();
 		foreach ($this->params as $key => $value){
-			if(!empty($key) && !is_null($key)) {
+			if(!empty($key) && !is_null($key) && !in_array($key, array('page'))) {
 				$url[] = $key.'='.$value;
 			} 
 		}
 		$baseUrl = implode('&', $url);
-		return $this->file.'?'.$baseUrl;
+        $page = '';
+        if( isset($this->params['page']) && !empty($this->params['page']) ) {
+            $page = $this->params['page'] . ".html";
+        }
+        if( !empty($baseUrl) ) {
+            return $page.'?'.$baseUrl;
+        }
+        else {
+            return $page;
+        }
+		//return $this->file.'?'.$baseUrl;
 	}
 	
 	/**
-	 * ajoute un paramètre à l'url
+	 * ajoute un paramÃ¨tre Ã  l'url
 	 */
 	public function addParam($key, $value) {
 		$this->params[$key] = $value;
 	}
 	
 	/**
-	 * ajoute des paramètres à l'url
+	 * ajoute des paramÃ¨tres Ã  l'url
 	 */
 	public function addParams(array $params){
 		foreach ($params as $key => $value) {
@@ -54,7 +64,7 @@ class Url {
 	}
 	
 	/**
-	 * enlève un paramètre à l'url
+	 * enlÃ¨ve un paramÃ¨tre Ã  l'url
 	 */
 	public function removeParam($key) {
 		unset($this->params[$key]);

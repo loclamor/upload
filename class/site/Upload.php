@@ -103,9 +103,15 @@ class Site_Upload extends Site {
 			case 'album' :
 				$this->getAlbumContent($_GET['idAlbum']);
 				break;
-                        case 'fusion':
+            case 'fusion':
 				$this->doMerge($_POST['source'], $_POST['dest']);
 				break;
+            case 'compte':
+                $this->getCompte();
+                break;
+            case 'updateCompte':
+                $this->doUpdateCompte($_POST);
+                break;
 			case 'albums' :
 			case 'accueil' :
 			default:
@@ -231,6 +237,27 @@ class Site_Upload extends Site {
 		
 		
 		$this->log->log('infos', 'infos_general', 'page album affichee pour l\'album '.$album->getId().' : '.$album->getNom(), Logger::GRAN_MONTH);
+	}
+    
+	public function getCompte() {
+		
+		$urlFils = new Url(true);
+		$urlFils->addParam('page', 'compte');
+		$this->addElement('filariane', '<a href="'.$urlFils->getUrl().'">mon compte</a>');
+		
+		
+		$this->addPage(new Page_Upload_Compte(),'main-tab-content');
+		
+		
+		
+		$this->log->log('infos', 'infos_general', 'page compte affichee', Logger::GRAN_MONTH);
+	}
+    
+	public function doUpdateCompte($post) {
+		
+		$this->addPage(new Page_Upload_DoUpdateCompte($post),'main-tab-content');
+		
+		$this->log->log('infos', 'infos_general', 'page compte update', Logger::GRAN_MONTH);
 	}
 	
 }

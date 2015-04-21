@@ -90,6 +90,10 @@ class Bdmap_Utilisateur extends Entite {
 	public function setMotDePasse($mdp) {
 		$this->mot_de_passe = $mdp;
 	}
+    
+	public function setMail( $mail ) {
+		$this->mail = $mail;
+	}
 	
 	public function setDateInscription($date) {
 		$this->date_inscription = $date;

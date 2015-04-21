@@ -4,7 +4,7 @@ RewriteEngine on
 
 # special rule for local development only
 # remove me before deploy
-RewriteBase /workspace-php/upload/
+RewriteBase /upload/
 
 # rewrite rule pour l'afficahge d'une seule photo
 # TODO : reste à vérifier coté php que la photo est accessible sans connection
@@ -14,3 +14,5 @@ RewriteRule ^photo/(.*)\.jpg$ getPhoto.php?uniqidPhoto=$1 [L]
 # rewrite rule pour l'affichage d'un album (donc de toutes ses photos)
 # TODO : reste à vérifier coté php que l'album est affichable sans connection, et le cas échéan proposer la connection
 RewriteRule ^view/(.*)\.html$ getExternAlbumViewer.php?uniqidAlbum=$1 [L]
+
+RewriteRule ^(.*)\.html$ index.php?page=$1 [L,QSA]

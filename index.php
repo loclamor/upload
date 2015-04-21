@@ -51,7 +51,7 @@ $site = new Site_Upload();
 			</div>
 		</nav>
 		<div class="row-fluid filariane">
-			<div id="filariane" class="span12">Vous �tes ici : <?php echo $site->getFilAriane();?></div>
+			<div id="filariane" class="span12">Vous &ecirc;tes ici : <?php echo $site->getFilAriane();?></div>
 		</div>
 		<div id="content" class="row-fluid">
 			<div class="span12 content-container">

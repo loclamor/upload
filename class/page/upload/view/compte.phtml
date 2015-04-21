@@ -1,0 +1,60 @@
+<?php
+$user = $this->user;
+$user instanceof Bdmap_Utilisateur;
+?>
+
+<div class="row-fluid">
+    <div class="span11 englober" >
+        <h3>Options du compte</h3>
+        <form method="POST" action="<?php echo $this->urlAction->getUrl(); ?>" class="form-horizontal" >
+            <fieldset>
+                <legend>Identifiants</legend>
+                <div class="control-group">
+                    <label class="control-label" for="pseudo">Pseudo</label>
+                    <div class="controls">
+                        <input type="text" id="pseudo" name="pseudo" placeholder="Pseudo" value="<?php echo $user->getPseudo(); ?>" readonly>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="password">Mot de passe</label>
+                    <div class="controls">
+                        <input type="password" id="password" name="password" placeholder="Mot de passe" value="<?php echo $user->getMotDePasse(); ?>">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="repassword">Répétez le mot de passe</label>
+                    <div class="controls">
+                        <input type="password" id="repassword" name="repassword" placeholder="Mot de passe" value="">
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Informations optionnelles</legend>
+                <div class="control-group">
+                    <label class="control-label" for="nom">Nom</label>
+                    <div class="controls">
+                        <input type="text" id="nom" name="nom" placeholder="Nom" value="<?php echo $user->getNom(); ?>">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="prenom">Prenom</label>
+                    <div class="controls">
+                        <input type="text" id="prenom" name="prenom" placeholder="Prenom" value="<?php echo $user->getPrenom(); ?>">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="eamil">Adrese mail</label>
+                    <div class="controls">
+                        <input type="text" id="email" name="email" placeholder="Adresse mail" value="<?php echo $user->getMail(); ?>">
+                    </div>
+                </div>
+            </fieldset>
+            <div class="control-group">
+                <div class="controls">
+                    <button type="reset" class="btn btn-default"><i class="icon-remove-circle"></i>&nbsp;Annuler</button>
+                    <button type="submit" class="btn btn-primary"><i class="icon-edit icon-white"></i>&nbsp;Mettre à jour</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
